@@ -1,6 +1,6 @@
 # SAgrupo4
 Antiquário Online
-Bem-vindo ao nosso Antiquário Online! Este repositório contém o código-fonte do nosso site de estoque, onde você pode explorar e adquirir peças únicas e valiosas de nosso acervo.
+Bem-vindo ao nosso Antiquário Online! Este repositório contém o código-fonte do nosso site de estoque, onde você pode explorar e adquirir peças únicas e valiosas de nosso acervo,e por um bom preço.
 
 Descrição do Projeto
 Tecnologias Utilizadas
