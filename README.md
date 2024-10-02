@@ -26,18 +26,31 @@ Contribuições são bem-vindas! Sinta-se à vontade para abrir uma issue ou env
 
 Requisitos Funcionais (RF)
 RF01 - O sistema deve permitir o registro de itens com descrição detalhada (origem, período, materiais).
+
 RF02 - O sistema deve registrar o status de conservação de cada item.
+
 RF03 - O sistema deve permitir o upload de imagens de alta resolução para cada item.
+
 RF04 - O sistema deve permitir a anotação da colocação física no depósito de cada item.
+
 RF05 - O sistema deve oferecer uma busca interna por categorias, período e status de conservação.
+
 RF06 - O sistema deve permitir o agrupamento de itens em coleções temáticas.
+
 RF07 - O sistema deve manter um histórico de alterações em itens (informações, localização, restaurações).
+
 RF08 - O sistema deve permitir a geração de relatórios sobre a coleção ou coleções específicas.
+
 RF9 - O sistema deve disponibilizar um espaço para anotações privadas sobre itens.
+
 RF10 - O sistema deve ter uma interface intuitiva e menus de fácil acesso.
+
 Requisitos Não Funcionais (RNF)
+
 RNF01 - O sistema deve suportar até 10.000 itens registrados.
+
 RNF02 - O tempo de resposta para buscas deve ser de no máximo 2 segundos.
+
 RNF03 - O sistema deve realizar backups automáticos diariamente.
 
 Licença
