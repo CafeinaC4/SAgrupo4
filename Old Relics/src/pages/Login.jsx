@@ -6,31 +6,23 @@ function Login() {
     
 
   return (
-    <div className='container'>
+    <div>
+      /* From Uiverse.io by Rohankumar620 */ 
 
-      <div className='navegador'>
-
-
-
-      </div>
-
-      <div className='baner'>
-
-        <div className='objeto1'>
-
-
-
+        <div class="form_back">
+            <div class="form_details">SignUp</div>
+            <input type="text" class="input" placeholder="Firstname"/>
+            <input type="text" class="input" placeholder="Username"/>
+            <input type="text" class="input" placeholder="Password"/>
+            <input type="text" class="input" placeholder="Confirm Password"/>
+            <button class="btn">Signup</button>
+            <span class="switch">Already have an account? 
+                <label for="signup_toggle" class="signup_tog">
+                    Sign In
+                </label>
+            </span>
         </div>
-
-        <div className='objeto2'>
-
-
-
-        </div>
-
-      </div>
-      
-    </div>
+  
   )
 }
 

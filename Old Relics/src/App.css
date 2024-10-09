@@ -3,6 +3,9 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  --cor-1: #212121;
+  --cor-2: #383a1e;
+  --cor-3: #edd7c8;
 }
 
 .logo {
@@ -40,3 +43,4 @@
 .read-the-docs {
   color: #888;
 }
+
