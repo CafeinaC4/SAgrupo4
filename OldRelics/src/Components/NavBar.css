@@ -4,5 +4,6 @@
     align-items: center;
     /* gap: 25px; */
     min-width: 100vw;
-    background-color: rgb(65, 65, 65);
+    background-color: rgb(30, 30, 30);
+    min-height: 8%;
 }

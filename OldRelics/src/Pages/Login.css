@@ -1,3 +1,77 @@
+/* .container {
+    height: 100%;
+    width: 100%;
+    font-family: Arial, sans-serif;
+    align-content: center;
+    justify-content: center;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.card {
+    background-color: #212121;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 20px;
+    color: white;
+}
+
+.input-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: white;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: gray;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: black; 
+}
+
+.link {
+    margin-top: 10px;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+}
+.Background{
+    height: 100%;
+    width: 100%;
+}
+background-image{
+    width: 50%;
+} */
 .appContainer {
     height: 100%;
     width: 100%;
@@ -14,7 +88,6 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-    scale: flex;
 }
 
 .cardContainer {
@@ -32,7 +105,7 @@
     align-items: center;
 }
 
-.cadastrotxt{
+.logintxt{
     color: white;
     font: 2em sans-serif;
     margin-bottom: 25px;
