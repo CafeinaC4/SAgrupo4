@@ -4,8 +4,8 @@ function Navbar() {
   return (
     <nav className="navbar">
         <Link to="/">Cadastro</Link>
-        {/* <Link to="/contato"></Link>
-        <Link to="/generica"></Link>
+        <Link to="/Home">Home</Link>
+        {/* <Link to="/generica"></Link>
         <Link to="/final"></Link> */}
     </nav>
   )
