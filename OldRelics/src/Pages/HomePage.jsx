@@ -1,9 +1,21 @@
-import React from 'react'
+import React from 'react';
+import './HomePage.css';
+import Navbar from '../Components/NavBar';
 
-function HomePage() {
+function App() {
   return (
-    <div>HomePage</div>
-  )
+    <div className="appContainerHome">
+      <Navbar/>
+      <div className='background'>
+      <div className="title">
+        <h1>A Bizarre Collection of Antiques & Curios</h1>
+        <p>"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."</p>
+          <button className='buttons'>CADASTRO</button>
+          <button className='buttons'>LOGIN</button>
+        </div>
+      </div>
+    </div>
+  );
 }
 
-export default HomePage
+export default App;
