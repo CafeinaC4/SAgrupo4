@@ -1,12 +1,12 @@
 import React from 'react'
-import { createContext } from 'react'
+import { createContext, useState } from 'react'
 
 
 export const GlobalContext = createContext()
 
 export const GlobalContextProvider = ({children}) =>{
-  // const [pessoa, setPessoa] = useState("Funcionario")
-  const[funcionarios, setFuncionarios] = useState([])
+  // const [FuncionarioLogado, setFuncionarioLogado] = useState("Existo")
+  const [funcionarios, setFuncionarios] = useState([])
 
   return (
     <GlobalContext.Provider value={{funcionarios, setFuncionarios}}>
@@ -14,3 +14,4 @@ export const GlobalContextProvider = ({children}) =>{
     </GlobalContext.Provider>
   )
 }
+

@@ -1,6 +1,7 @@
 import React from 'react';
 import './HomePage.css';
 import Navbar from '../Components/NavBar';
+import { Link } from 'react-router-dom'
 
 function App() {
   return (
@@ -10,8 +11,8 @@ function App() {
       <div className="title">
         <h1>A Bizarre Collection of Antiques & Curios</h1>
         <p>"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."</p>
-          <button className='buttons'>CADASTRO</button>
-          <button className='buttons'>LOGIN</button>
+          <button className='buttons' onCLick="/">CADASTRO</button>
+          <button className='buttons' onClick="/Login">LOGIN</button>
         </div>
       </div>
     </div>

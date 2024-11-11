@@ -11,7 +11,7 @@ const Login = () => {
         <div className="cardContainer">
            
             <label className="logintxt">Login</label>
-          <input className="inputs" id='1' placeholder="Email"/>
+          <input className="inputs" id='1' placeholder="Email" value={nome} />
           <input className="inputs" id='2' placeholder="Senha"/>
           <button className="cadastrar" onClick={Login}>
           Login
