@@ -1,10 +1,9 @@
-import React from 'react'
+import React, { useState, useContext} from 'react'
 import './Cadastro.css'
-import { useState } from 'react'
 import Navbar from '../Components/NavBar'
 import { Link } from 'react-router-dom'
 import { GlobalContext } from '../Context/GlobalContext'
-import { useContext } from 'react'
+
 
 function Cadastro() {
   const {funcionarios, setFuncionarios} = useContext(GlobalContext)
@@ -14,7 +13,7 @@ function Cadastro() {
   const [senha, setSenha] = useState()
   const [confirmarSenha, setConfirmarSenha] = useState()
   const [cpf, setCpf] = useState()
-  const [codigoAcesso, setCodigoAcesso] = useState(false)
+  const [codigoAcesso, setCodigoAcesso] = useState()
 
   const verificarCodigo = () =>{
     if(codigoAcesso == "123456789"){

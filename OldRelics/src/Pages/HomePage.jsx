@@ -11,8 +11,8 @@ function App() {
       <div className="title">
         <h1>A Bizarre Collection of Antiques & Curios</h1>
         <p>"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."</p>
-          <button className='buttons' onCLick="/">CADASTRO</button>
-          <button className='buttons' onClick="/Login">LOGIN</button>
+        <Link to="/" className='buttons'>CADASTRO</Link>
+        <Link to="/Login" className='buttons'>LOGIN</Link>
         </div>
       </div>
     </div>
