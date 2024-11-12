@@ -47,29 +47,36 @@ function Cadastro() {
 
   return (
     <div className="appContainer">
-        <Navbar/>
+        {/* <Navbar/> */}
       <div className="background">
-        <div className="cardContainer">
-          <label className="cadastrotxt">Cadastro</label>
-          <label className='info'>Nome</label>
-          <input className="inputs" placeholder="Nome" value={nome} onChange={(e) => setNome(e.target.value)} />
-          <label className='info'>Idade</label>
-          <input className="inputs" placeholder="Idade" value={idade} onChange={(e) => setIdade(e.target.value)} />
-          <label className='info'>Email</label>
-          <input className="inputs" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-          <label className='info'>Senha</label>
-          <input className="inputs" placeholder="Senha" value={senha} onChange={(e) => setSenha(e.target.value)} />
-          <label className='info'>Repita senha</label>
-          <input className="inputs" placeholder="Repita a senha" value={confirmarSenha} onChange={(e) => setConfirmarSenha(e.target.value)}/>
-          <label className='info'>Cpf</label>
-          <input className="inputs" placeholder="Cpf" value={cpf} onChange={(e) => setCpf(e.target.value)} />
-          <label className='info'>Código</label>
-          <input className="inputs" placeholder="Codigo de entrada" value={codigoAcesso} onChange={(e) => setCodigoAcesso(e.target.value)} />
-          
-          <button className="cadastrar" onClick={cadastrar}>
-          Cadastrar
-          </button>
-          <Link to="/Login" className='linkParaLogin'>Clique aqui se já possui uma conta</Link>
+        <div className="cardContainerCadastro">
+          <div className="tituloCadastro">
+            <label className="cadastrotxt">Cadastro</label>
+          </div>
+          <div className="inputsCadastro">
+            <label className='info'>Nome</label>
+            <input className="inputs" placeholder="Nome" value={nome} onChange={(e) => setNome(e.target.value)} />
+            <label className='info'>Idade</label>
+            <input className="inputs" placeholder="Idade" value={idade} onChange={(e) => setIdade(e.target.value)} />
+            <label className='info'>Email</label>
+            <input className="inputs" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <label className='info'>Senha</label>
+            <input className="inputs" placeholder="Senha" value={senha} onChange={(e) => setSenha(e.target.value)} />
+            <label className='info'>Repita senha</label>
+            <input className="inputs" placeholder="Repita a senha" value={confirmarSenha} onChange={(e) => setConfirmarSenha(e.target.value)}/>
+            <label className='info'>Cpf</label>
+            <input className="inputs" placeholder="Cpf" value={cpf} onChange={(e) => setCpf(e.target.value)} />
+            <label className='info'>Código</label>
+            <input className="inputs" placeholder="Codigo de entrada" value={codigoAcesso} onChange={(e) => setCodigoAcesso(e.target.value)} />
+          </div>
+          <div className="botaoCadastro">
+            <button className="cadastrar" onClick={cadastrar}>
+              Cadastrar
+            </button>
+          </div>
+          <div className="linkLogin">
+            <Link to="/Login" className='linkParaLogin'>Clique aqui se já possui uma conta</Link>
+          </div>
         </div>
       </div>
     </div>
