@@ -18,7 +18,7 @@
     /* scale: flex;  */
 }
 
-.cardContainerCadastro {
+.cardContainerCadastro{
     height: 80%;
     width: 25%;
     background-color: rgb(30, 30, 30);
@@ -31,14 +31,43 @@
     flex-direction: column;
     align-items: center;
 }
-/* 
-.cadastrotxt{
+
+.tituloCadastro {
+    width: 75%;
+    margin-bottom: 50px;
+}
+
+.cadastrotxt {
     color: white;
-    font: 2em sans-serif;
-    margin-bottom: 25px;
+    font: 2.5em sans-serif;
     text-decoration: double;
-} */
-/* 
+}
+
+.inputsCadastro{
+    height: 60%;
+    width: 85%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}
+.infoCadastro{
+    text-align: left;
+    margin-left: 10px;
+}
+
+.botaoCadastrar{
+    height: 10%;
+    width: 75%;
+    background-color: #4CAF50;
+}
+
+.linkParaLogin{
+    color: white;
+    text-decoration: underline;
+    margin-top: 25px;
+    background-color: aliceblue;
+}
+
 .inputs{
     height: 3%;
     width: 75%;
@@ -50,7 +79,7 @@
     outline: black;
     border-radius: 5px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-} */
+} 
 /* 
 .cadastrar{
     height: 10%;

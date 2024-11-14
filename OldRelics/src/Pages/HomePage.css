@@ -15,8 +15,10 @@
     text-align: center;
     gap: 25px;
   }
+  
   .title{
     color: white;
+    font-size: xx-large;
     font-family: 'Times New Roman', serif;
     margin-bottom: 25px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
