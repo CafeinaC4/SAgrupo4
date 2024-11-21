@@ -43,11 +43,10 @@ function Cadastro() {
     setFuncionarios([...funcionarios, funcionario])
   }
 
- 
 
   return (
     <div className="appContainerCadastro">
-        {/* <Navbar/> */}
+        <Navbar/>
       <div className="background">
         <div className="cardContainerCadastro">
           <div className="tituloCadastro">
@@ -70,13 +69,13 @@ function Cadastro() {
             <input className="inputs" placeholder="Codigo de entrada" value={codigoAcesso} onChange={(e) => setCodigoAcesso(e.target.value)} />
           </div>
           <div className="botaoCadastro">
-            {/* <button className="cadastrar" onClick={cadastrar}>
+            <button className="bcadastrar" onClick={cadastrar}>
               Cadastrar
-            </button> */}
+            </button>
           </div>
-          {/* <div className="linkLogin">
+          <div className="linkLogin">
             <Link to="/Login" className='linkParaLogin'>Clique aqui se já possui uma conta</Link>
-          </div> */}
+          </div>
         </div>
       </div>
     </div>
