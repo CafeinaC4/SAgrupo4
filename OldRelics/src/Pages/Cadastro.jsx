@@ -36,7 +36,6 @@ function Cadastro() {
       }
   };
 
- 
 
   return (
     <div className="appContainerCadastro">
@@ -63,9 +62,15 @@ function Cadastro() {
             <input className="inputs" placeholder="Codigo de entrada" value={codigoAcesso} onChange={(e) => setCodigoAcesso(e.target.value)} />
           </div>
           <div className="botaoCadastro">
+<<<<<<< HEAD
             <button className="cadastrar" onClick={cadastrar}>
               Cadastrar
             </button> 
+=======
+            <button className="bcadastrar" onClick={cadastrar}>
+              Cadastrar
+            </button>
+>>>>>>> b87c1eff7e6764126974fdf93d8b1ab36932bd0e
           </div>
           <div className="linkLogin">
             <Link to="/Login" className='linkParaLogin'>Clique aqui se já possui uma conta</Link>
