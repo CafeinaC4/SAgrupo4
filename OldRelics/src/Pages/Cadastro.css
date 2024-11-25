@@ -1,4 +1,4 @@
-.appContainer {
+.appContainerCadastro {
     height: 100%;
     width: 100%;
 }
@@ -34,12 +34,12 @@
 
 .tituloCadastro {
     width: 75%;
-    margin-bottom: 50px;
+    margin-bottom: 25px;
 }
 
 .cadastrotxt {
     color: white;
-    font: 2.5em sans-serif;
+    font: 2.25em sans-serif;
     text-decoration: double;
 }
 
@@ -75,7 +75,7 @@
     border: none;
     padding: 10px;
     font-size: 16px;
-    margin: 10px 0px 10px 0px;
+    margin: 5px 0px 5px 0px;
     outline: black;
     border-radius: 5px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);

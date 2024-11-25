@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { GlobalContext } from '../Context/GlobalContext'
 
 const Login = () => {
-  const [funcionarios, setFuncionarios] = useContext(GlobalContext)
+  const {funcionarios, setFuncionarios} = useContext(GlobalContext)
   const [nome, setNome] = useState('')
   const [senha, setSenha] = useState('')
 

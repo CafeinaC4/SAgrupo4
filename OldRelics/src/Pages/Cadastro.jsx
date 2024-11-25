@@ -3,51 +3,44 @@ import './Cadastro.css'
 import Navbar from '../Components/NavBar'
 import { Link } from 'react-router-dom'
 import { GlobalContext } from '../Context/GlobalContext'
+import axios from 'axios';
 
 
 function Cadastro() {
-  const {funcionarios, setFuncionarios} = useContext(GlobalContext)
-  const [nome, setNome] = useState()  
-  const [idade, setIdade] = useState()
-  const [email, setEmail] = useState()
-  const [senha, setSenha] = useState()
-  const [confirmarSenha, setConfirmarSenha] = useState()
-  const [cpf, setCpf] = useState()
-  const [codigoAcesso, setCodigoAcesso] = useState()
+  // const {funcionarios, setFuncionarios} = useContext(GlobalContext)
+  const [fucionarios, setFuncionarios] = useState([]);
+  const [form, setForm] = useState({ nome: '', email: '', senha: '', cpf: '' });
+  const [selectedFuncionario, setSelectedFuncionario] = useState(null); // Cliente selecionado para update
 
-  const verificarCodigo = () =>{
-    if(codigoAcesso == "123456789"){
-      return true
-    }
-    return false
-  }
-
-  const cadastrar = () => {
-    if(!verificarCodigo()){
-      alert('Código de entrada inválido, por favor verifique')
-      return
-    }
-    if(senha != confirmarSenha){
-      alert('As senhas não são as mesmas, por favor confira se está correta')
-      return
-    }
-
-    let funcionario = {
-    nome : nome,
-    idade : idade,
-    email : email,
-    senha : senha,
-    cpf : cpf,
-    idFuncionario : Date.now()
-    }
-    setFuncionarios([...funcionarios, funcionario])
-  }
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      try {
+          if (selectedCliente) {
+              // Atualizar cliente existente (PUT)
+              const response = await axios.put(`http://localhost:3000/clientes/${selectedCliente.id}`, form);
+              if (response.status === 200) {
+                  fetchClientes(); // Atualiza a lista de clientes após a edição
+                  setForm({ nome: '', email: '', senha: '', cpf: ''  }); // Limpa o formulário
+                  setSelectedCliente(null); // Reseta o cliente selecionado
+              }
+          } else {
+              // Adicionar novo cliente (POST)
+              const response = await axios.post('http://localhost:3000/clientes', form);
+              if (response.status === 201) {
+                  fetchClientes(); // Atualiza a lista de clientes após a adição
+                  setForm({ nome: '', email: '', senha: '', cpf: '' }); // Limpa o formulário
+              }
+          }
+      } catch (error) {
+          console.error('Erro ao adicionar/atualizar cliente:', error);
+      }
+  };
 
  
 
   return (
     <div className="appContainerCadastro">
-        {/* <Navbar/> */}
+        <Navbar/>
       <div className="background">
         <div className="cardContainerCadastro">
           <div className="tituloCadastro">
@@ -70,13 +63,13 @@ function Cadastro() {
             <input className="inputs" placeholder="Codigo de entrada" value={codigoAcesso} onChange={(e) => setCodigoAcesso(e.target.value)} />
           </div>
           <div className="botaoCadastro">
-            {/* <button className="cadastrar" onClick={cadastrar}>
+            <button className="cadastrar" onClick={cadastrar}>
               Cadastrar
-            </button> */}
+            </button> 
           </div>
-          {/* <div className="linkLogin">
+          <div className="linkLogin">
             <Link to="/Login" className='linkParaLogin'>Clique aqui se já possui uma conta</Link>
-          </div> */}
+          </div>
         </div>
       </div>
     </div>
