@@ -18,11 +18,11 @@ app.use(express.json());
 // Rota para buscar todos os clientes
 app.get('/Funcionarios', async (req, res) => {
     try {
-        const result = await pool.query('SELECT * FROM clientes');
+        const result = await pool.query('SELECT * FROM Funcionarios');
         res.json(result.rows);
     } catch (err) {
         console.error(err.message);
-        res.status(500).json({ error: 'Erro ao buscar clientes' });
+        res.status(500).json({ error: 'Erro ao buscar funcionario' });
     }
 });
 
@@ -43,16 +43,16 @@ app.get('/Funcionarios/:id', async (req, res) => {
 
 // Rota para adicionar um cliente
 app.post('/Funcionarios', async (req, res) => {
-    const { nome, endereco, email, telefone } = req.body;
+    const { nome, idade, senha, email, cpf } = req.body;
     try {
         const result = await pool.query(
             'INSERT INTO Funcionarios (nome, endereco, email, telefone) VALUES ($1, $2, $3, $4) RETURNING *',
-            [nome, endereco, email, telefone]
+            [nome, idade, senha, email, cpf]
         );
         res.status(201).json(result.rows[0]);
     } catch (err) {
         console.error(err.message);
-        res.status(500).json({ error: 'Erro ao adicionar cliente' });
+        res.status(500).json({ error: 'Erro ao adicionar funcionario' });
     }
 });
 

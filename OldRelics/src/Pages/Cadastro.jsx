@@ -9,30 +9,30 @@ import axios from 'axios';
 function Cadastro() {
   // const {funcionarios, setFuncionarios} = useContext(GlobalContext)
   const [fucionarios, setFuncionarios] = useState([]);
-  const [form, setForm] = useState({ nome: '', email: '', senha: '', cpf: '' });
+  const [form, setForm] = useState({ nomeFuncionario: '', idadeFuncionario: '', emailFuncionario: '', senhaFuncionario: '', cpfFuncionario: '' });
   const [selectedFuncionario, setSelectedFuncionario] = useState(null); // Cliente selecionado para update
 
     const handleSubmit = async (e) => {
       e.preventDefault();
       try {
-          if (selectedCliente) {
+          if (selectedFuncionario) {
               // Atualizar cliente existente (PUT)
-              const response = await axios.put(`http://localhost:3000/clientes/${selectedCliente.id}`, form);
+              const response = await axios.put(`http://localhost:3000/Funcionarios/${selectedFuncionario.id}`, form);
               if (response.status === 200) {
-                  fetchClientes(); // Atualiza a lista de clientes após a edição
-                  setForm({ nome: '', email: '', senha: '', cpf: ''  }); // Limpa o formulário
-                  setSelectedCliente(null); // Reseta o cliente selecionado
+                  fetchFuncionarios(); // Atualiza a lista de clientes após a edição
+                  setForm({ nomeFuncionario: '', idadeFuncionario: '', emailFuncionario: '', senhaFuncionario: '', cpfFuncionario: ''  }); // Limpa o formulário
+                  setSelectedFuncionario(null); // Reseta o cliente selecionado
               }
           } else {
               // Adicionar novo cliente (POST)
-              const response = await axios.post('http://localhost:3000/clientes', form);
+              const response = await axios.post('http://localhost:3000/Funcionarios', form);
               if (response.status === 201) {
-                  fetchClientes(); // Atualiza a lista de clientes após a adição
-                  setForm({ nome: '', email: '', senha: '', cpf: '' }); // Limpa o formulário
+                  fetchFuncionarios(); // Atualiza a lista de clientes após a adição
+                  setForm({ nomeFuncionario: '', idadeFuncionario: '', emailFuncionario: '', senhaFuncionario: '', cpfFuncionario: '' }); // Limpa o formulário
               }
           }
       } catch (error) {
-          console.error('Erro ao adicionar/atualizar cliente:', error);
+          console.error('Erro ao adicionar/atualizar funcionario:', error);
       }
   };
 
@@ -47,30 +47,24 @@ function Cadastro() {
           </div>
           <div className="inputsCadastro">
             <label className='infoCadastro'>Nome</label>
-            <input className="inputs" placeholder="Nome" value={nome} onChange={(e) => setNome(e.target.value)} />
+            <input className="inputs" placeholder="Nome" value={form.nome} onChange={(e) => setForm({ ...form, nomeFuncionario: e.target.value })} required/>
             <label className='infoCadastro'>Idade</label>
-            <input className="inputs" placeholder="Idade" value={idade} onChange={(e) => setIdade(e.target.value)} />
+            <input className="inputs" placeholder="Idade" value={form.idade} onChange={(e) => setForm({ ...form, idadeFuncionario: e.target.value })} />
             <label className='infoCadastro'>Email</label>
-            <input className="inputs" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <input className="inputs" placeholder="Email" value={form.email} onChange={(e) => setForm({ ...form, emailFuncionario: e.target.value })} />
             <label className='infoCadastro'>Senha</label>
-            <input className="inputs" placeholder="Senha" value={senha} onChange={(e) => setSenha(e.target.value)} />
-            <label className='infoCadastro'>Repita senha</label>
-            <input className="inputs" placeholder="Repita a senha" value={confirmarSenha} onChange={(e) => setConfirmarSenha(e.target.value)}/>
+            <input className="inputs" placeholder="Senha" value={form.senha} onChange={(e) => setForm({ ...form, senhaFuncionario: e.target.value })} />
+            {/* <label className='infoCadastro'>Repita senha</label> */}
+            {/* <input className="inputs" placeholder="Repita a senha" value={confirmarSenha} onChange={(e) => setConfirmarSenha(e.target.value)}/> */}
             <label className='infoCadastro'>Cpf</label>
-            <input className="inputs" placeholder="Cpf" value={cpf} onChange={(e) => setCpf(e.target.value)} />
+            <input className="inputs" placeholder="Cpf" value={form.cpf} onChange={(e) => setForm({ ...form, cpfFuncionario: e.target.value })} />
             <label className='infoCadastro'>Código</label>
-            <input className="inputs" placeholder="Codigo de entrada" value={codigoAcesso} onChange={(e) => setCodigoAcesso(e.target.value)} />
+            <input className="inputs" placeholder="Codigo de entrada" value={form.codigoAcesso} onChange={(e) => setCodigoAcesso(e.target.value)} />
           </div>
           <div className="botaoCadastro">
-<<<<<<< HEAD
-            <button className="cadastrar" onClick={cadastrar}>
-              Cadastrar
-            </button> 
-=======
-            <button className="bcadastrar" onClick={cadastrar}>
+            <button className="bcadastrar" onClick={handleSubmit}>
               Cadastrar
             </button>
->>>>>>> b87c1eff7e6764126974fdf93d8b1ab36932bd0e
           </div>
           <div className="linkLogin">
             <Link to="/Login" className='linkParaLogin'>Clique aqui se já possui uma conta</Link>
