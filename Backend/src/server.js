@@ -16,7 +16,7 @@ app.use(cors());
 app.use(express.json());
 
 // Rota para buscar todos os clientes
-app.get('/Funcionarios', async (req, res) => {
+app.get('/funcionarios', async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM Funcionarios');
         res.json(result.rows);
@@ -27,27 +27,27 @@ app.get('/Funcionarios', async (req, res) => {
 });
 
 // Rota para buscar um cliente por ID
-app.get('/Funcionarios/:id', async (req, res) => {
-    const { id } = req.params;
+app.get('/funcionarios/:idfuncionario', async (req, res) => {
+    const { idfuncionario } = req.params;
     try {
-        const result = await pool.query('SELECT * FROM clientes WHERE id = $1', [id]);
+        const result = await pool.query('SELECT * FROM funcionarios WHERE idfuncionario = $1', [idfuncionario]);
         if (result.rows.length === 0) {
-            return res.status(404).json({ error: 'Cliente não encontrado' });
+            return res.status(404).json({ error: 'funcionario não encontrado' });
         }
         res.json(result.rows[0]);
     } catch (err) {
         console.error(err.message);
-        res.status(500).json({ error: 'Erro ao buscar cliente' });
+        res.status(500).json({ error: 'Erro ao buscar funcionario' });
     }
 });
 
 // Rota para adicionar um cliente
-app.post('/Funcionarios', async (req, res) => {
-    const { nome, idade, senha, email, cpf } = req.body;
+app.post('/funcionarios', async (req, res) => {
+    const { idfuncionario, nomefuncionario, emailfuncionario, senhafuncionario, cpffuncionario } = req.body;
     try {
         const result = await pool.query(
-            'INSERT INTO Funcionarios (nome, endereco, email, telefone) VALUES ($1, $2, $3, $4) RETURNING *',
-            [nome, idade, senha, email, cpf]
+            'INSERT INTO funcionarios (idfuncionario, nomefuncionario, emailfuncionario, senhafuncionario, cpffuncionario) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+            [idfuncionario, nomefuncionario, emailfuncionario, senhafuncionario, cpffuncionario]
         );
         res.status(201).json(result.rows[0]);
     } catch (err) {
@@ -57,13 +57,13 @@ app.post('/Funcionarios', async (req, res) => {
 });
 
 // Rota para atualizar um cliente
-app.put('/Funcionarios/:id', async (req, res) => {
-    const { id } = req.params;
-    const { nome, endereco, email, telefone } = req.body;
+app.put('/funcionarios/:idfuncionario', async (req, res) => {
+    const { idfuncionario } = req.params;
+    const { nomefuncionario, emailfuncionario, senhafuncionario, cpffuncionario } = req.body;
     try {
         const result = await pool.query(
-            'UPDATE Funcionarios SET nome = $1, endereco = $2, email = $3, telefone = $4 WHERE id = $5 RETURNING *',
-            [nome, endereco, email, telefone, id]
+            'UPDATE funcionarios SET idfuncionario = $1, noemfuncionario = $2, emailfuncionario = $3, senhafuncionario = $4 WHERE cpffuncionario = $5 RETURNING *',
+            [idfuncionario, nomefuncionario, emailfuncionario, senhafuncionario, cpffuncionario]
         );
         if (result.rows.length === 0) {
             return res.status(404).json({ error: 'Funcionario não encontrado' });
@@ -76,10 +76,10 @@ app.put('/Funcionarios/:id', async (req, res) => {
 });
 
 // Rota para deletar um cliente
-app.delete('/Funcionarios/:id', async (req, res) => {
-    const { id } = req.params;
+app.delete('/funcionarios/:idfucionario', async (req, res) => {
+    const { idfuncionario } = req.params;
     try {
-        const result = await pool.query('DELETE FROM Funcionarios WHERE id = $1 RETURNING *', [id]);
+        const result = await pool.query('DELETE FROM Funcionarios WHERE idfuncionario = $1 RETURNING *', [idfuncionario]);
         if (result.rows.length === 0) {
             return res.status(404).json({ error: 'Funcionario não encontrado' });
         }
@@ -90,6 +90,6 @@ app.delete('/Funcionarios/:id', async (req, res) => {
     }
 });
 
-app.listen(3000, () => {
-    console.log('Servidor rodando na porta 3000');
+app.listen(5432, () => {
+    console.log('Servidor rodando na porta 5432');
 });
