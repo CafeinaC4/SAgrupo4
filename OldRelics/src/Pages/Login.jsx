@@ -3,6 +3,9 @@ import './Login.css';
 import Navbar from '../Components/NavBar';
 import { Link } from 'react-router-dom'
 import { GlobalContext } from '../Context/GlobalContext'
+import axios from 'axios' 
+
+// API para login
 
 const Login = () => {
   const {funcionarios, setFuncionarios} = useContext(GlobalContext)
@@ -17,6 +20,8 @@ const Login = () => {
        alert('Login efetuado com sucesso!')
      }
   }
+
+
     return (
       <div className='appContainer'>
         <Navbar/>
