@@ -14,13 +14,14 @@ function Cadastro() {
     if (confirmarSenha != funcionario.senhafuncionario && !e.success){
        alert('Senhas não conferem!')
        return
+    }else if (funcionario.senhafuncionario <= 5) {
+      alert('Senhas não possui tamanho o suficiente!')
+      return
     }else{
       e.preventDefault()
        try {
-         console.log ('try')
          const response = await axios.post('http://localhost:3000/funcionarios', funcionario)
            if (response.status === 201) {
-            console.log ("if")
              setFuncionario(response.data);
              alert('Usuário cadastrado no banco de dados! :D')
            }
@@ -52,8 +53,13 @@ function Cadastro() {
             {/* <label className='infoCadastro'>Repita senha</label> */}
             <input className="inputs" type={showPassword ? 'text' : 'password'} placeholder="Repita a senha" value={confirmarSenha} onChange={(e) => setConfirmarSenha(e.target.value)}/>
 
+<<<<<<< HEAD
             {/* <label className='infoCadastro'>Cpf</label> */}
             <input className="inputs" placeholder="Cpf" value={funcionario.cpffuncionario} onChange={(e) => setFuncionario({ ...funcionario, cpffuncionario: e.target.value })} />
+=======
+            <label className='infoCadastro'>Cpf</label>
+            <input className="inputs" maxLength={11} placeholder="Cpf" value={funcionario.cpffuncionario} onChange={(e) => setFuncionario({ ...funcionario, cpffuncionario: e.target.value })}/>
+>>>>>>> f630159e27acdd4294fa094a9f7d1450fda9a5d3
 
             {/* <label className='infoCadastro'>Código</label> */}
             {/* <input className="inputs" placeholder="Codigo de entrada" value={form.codigoAcesso} onChange={(e) => setFuncionario({ ...funcionario, idfuncionario: e.target.value })} required/> */}

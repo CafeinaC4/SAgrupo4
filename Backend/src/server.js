@@ -15,11 +15,11 @@ app.use(express.json());
 
 // Rota pra criar um funcionario
 app.post('/funcionarios', async (req, res) => {
-    const { idfuncionario, nomefuncionario, emailfuncionario, senhafuncionario, cpffuncionario } = req.body
+    const { nomefuncionario, emailfuncionario, senhafuncionario, cpffuncionario } = req.body
     try {
         const result = await pool.query(
-            'INSERT INTO funcionarios (idfuncionario, nomefuncionario, emailfuncionario, senhafuncionario, cpffuncionario) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-            [idfuncionario, nomefuncionario, emailfuncionario, senhafuncionario, cpffuncionario]
+            'INSERT INTO funcionarios (nomefuncionario, emailfuncionario, senhafuncionario, cpffuncionario) VALUES ($1, $2, $3, $4) RETURNING *',
+            [nomefuncionario, emailfuncionario, senhafuncionario, cpffuncionario]
         )
         res.status(201).json(result.rows[0])
     } catch (err) {
@@ -31,11 +31,11 @@ app.post('/funcionarios', async (req, res) => {
 // Rota para buscar todos os funcionarios
 app.get('/funcionarios', async (req, res) => {
     try {
-        const result = await pool.query('SELECT * FROM clientes');
+        const result = await pool.query('SELECT * FROM funcionarios');
         res.json(result.rows);
     } catch (err) {
         console.error(err.message);
-        res.status(500).json({ error: 'Erro ao buscar clientes' });
+        res.status(500).json({ error: 'Erro ao buscar funcionarios' });
     }
 });
 
@@ -57,11 +57,11 @@ app.get('/funcionarios/:idfuncionario', async (req, res) => {
 // Rota para atualizar um funcionario
 app.put('/funcionarios/:idfuncionario', async (req, res) => {
     const { idfuncionario } = req.params;
-    const { nome, endereco, email, telefone } = req.body;
+    const { nomefuncionario, emailfuncionario, senhafuncionario, cpffuncionario } = req.body;
     try {
         const result = await pool.query(
-            'UPDATE clientes SET nome = $1, endereco = $2, email = $3, telefone = $4 WHERE id = $5 RETURNING *',
-            [nome, endereco, email, telefone, idfuncionario]
+            'UPDATE clientes SET nomefuncionario = $1, emailfuncionario = $2, senhafuncionario = $3, cpffuncionario = $4 WHERE idfuncionario = $5 RETURNING *',
+            [nomefuncionario, emailfuncionario, senhafuncionario, cpffuncionario, idfuncionario]
         );
         if (result.rows.length === 0) {
             return res.status(404).json({ error: 'Cliente não encontrado' });
@@ -74,14 +74,14 @@ app.put('/funcionarios/:idfuncionario', async (req, res) => {
 });
 
 // Rota para deletar um funcionario
-app.delete('/clientes/:id', async (req, res) => {
-    const { id } = req.params;
+app.delete('/funcionarios/:idfuncionario', async (req, res) => {
+    const { idfuncionario } = req.params;
     try {
-        const result = await pool.query('DELETE FROM clientes WHERE id = $1 RETURNING *', [id]);
+        const result = await pool.query('DELETE FROM funcionario WHERE idfuncionario = $1 RETURNING *', [idfuncionario]);
         if (result.rows.length === 0) {
-            return res.status(404).json({ error: 'Cliente não encontrado' });
+            return res.status(404).json({ error: 'Funcionario não encontrado' });
         }
-        res.json({ message: 'Cliente deletado com sucesso' });
+        res.json({ message: 'Funcionario deletado com sucesso' });
     } catch (err) {
         console.error(err.message);
         res.status(500).json({ error: 'Erro ao deletar cliente' });
