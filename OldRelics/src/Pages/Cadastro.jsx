@@ -35,34 +35,41 @@ function Cadastro() {
   return (
     <div className="appContainerCadastro">
         <Navbar/>
-      <div className="background">
+      <div className="backgroundz">
         <div className="cardContainerCadastro">
           <div className="tituloCadastro">
             <label className="cadastrotxt">Cadastro</label>
           </div>
           <div className="inputsCadastro">
-            <label className='infoCadastro'>Nome</label>
+            {/* <label className='infoCadastro'>Nome</label> */}
             <input className="inputs" placeholder="Nome" value={funcionario.nomefuncionario} onChange={(e) => setFuncionario({ ...funcionario, nomefuncionario: e.target.value })} required/>
 
-            <label className='infoCadastro'>Email</label>
+            {/* <label className='infoCadastro'>Email</label> */}
             <input className="inputs" placeholder="Email" value={funcionario.emailfuncionario} onChange={(e) => setFuncionario({ ...funcionario, emailfuncionario: e.target.value })}/>
 
-            <label className='infoCadastro'>Senha</label>
+            {/* <label className='infoCadastro'>Senha</label> */}
             <input className="inputs" type={showPassword ? 'text' : 'password'} placeholder="Senha" value={funcionario.senhafuncionario} onChange={(e) => setFuncionario({ ...funcionario, senhafuncionario: e.target.value })} />
 
-            <label className='infoCadastro'>Repita senha</label>
+            {/* <label className='infoCadastro'>Repita senha</label> */}
             <input className="inputs" type={showPassword ? 'text' : 'password'} placeholder="Repita a senha" value={confirmarSenha} onChange={(e) => setConfirmarSenha(e.target.value)}/>
 
+            {/* <label className='infoCadastro'>Cpf</label> */}
+            <input className="inputs" placeholder="Cpf" value={funcionario.cpffuncionario} onChange={(e) => setFuncionario({ ...funcionario, cpffuncionario: e.target.value })} />
+
+
+            {/* <label className='infoCadastro'>Cpf</label> */}
+            <input className="inputs" placeholder="Cpf" value={funcionario.cpffuncionario} onChange={(e) => setFuncionario({ ...funcionario, cpffuncionario: e.target.value })} />
+
             <label className='infoCadastro'>Cpf</label>
-            <input className="inputs" maxLength={14} placeholder="Cpf" value={funcionario.cpffuncionario} onChange={(e) => setFuncionario({ ...funcionario, cpffuncionario: e.target.value })}/>
+            <input className="inputs" maxLength={11} placeholder="Cpf" value={funcionario.cpffuncionario} onChange={(e) => setFuncionario({ ...funcionario, cpffuncionario: e.target.value })}/>
 
             {/* <label className='infoCadastro'>Código</label> */}
             {/* <input className="inputs" placeholder="Codigo de entrada" value={form.codigoAcesso} onChange={(e) => setFuncionario({ ...funcionario, idfuncionario: e.target.value })} required/> */}
           </div>
 
-          <label>Mostrar senha</label>
           <div className="mostrarSenha">
             <input type="checkbox" checked={showPassword} onChange={(e) => setShowPassword(e.target.checked)}/>
+            <label>Mostrar senha</label>
           </div>
 
           <div className="botaoCadastro">
