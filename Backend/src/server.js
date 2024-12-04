@@ -64,12 +64,12 @@ app.put('/funcionarios/:idfuncionario', async (req, res) => {
             [nomefuncionario, emailfuncionario, senhafuncionario, cpffuncionario, idfuncionario]
         );
         if (result.rows.length === 0) {
-            return res.status(404).json({ error: 'Cliente não encontrado' });
+            return res.status(404).json({ error: 'Funcionario não encontrado' });
         }
         res.json(result.rows[0]);
     } catch (err) {
         console.error(err.message);
-        res.status(500).json({ error: 'Erro ao atualizar cliente' });
+        res.status(500).json({ error: 'Erro ao atualizar funcionario' });
     }
 });
 
@@ -84,9 +84,87 @@ app.delete('/funcionarios/:idfuncionario', async (req, res) => {
         res.json({ message: 'Funcionario deletado com sucesso' });
     } catch (err) {
         console.error(err.message);
-        res.status(500).json({ error: 'Erro ao deletar cliente' });
+        res.status(500).json({ error: 'Erro ao deletar funcionario' });
     }
 });
+
+// Crud dos itens
+
+//Adicionar item
+app.post('/itens', async (req, res) => {
+    const { nomeitem, idadeitem, dataaquisicaoitem, tipoitem, descricaoitem, itemestoque, datavendaitem } = req.body
+    try {
+        const result = await pool.query(
+            'INSERT INTO itens (nomeitem, idadeitem, dataaquisicaoitem, tipoitem, descricaoitem, itemestoque, datavendaitem) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+            [nomeitem, idadeitem, dataaquisicaoitem, tipoitem, descricaoitem, itemestoque, datavendaitem]
+        )
+        res.status(201).json(result.rows[0])
+    } catch (err) {
+        console.error(err.message)
+        res.status(500).json({ error: 'Erro ao cadastrar produto!' })
+    }
+})
+
+// Rota para buscar todos os item
+app.get('/itens', async (req, res) => {
+    try {
+        const result = await pool.query('SELECT * FROM itens');
+        res.json(result.rows);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).json({ error: 'Erro ao buscar itens' });
+    }
+});
+
+// Rota para buscar um item por ID
+app.get('/itens/:iditem', async (req, res) => {
+    const { iditem } = req.params;
+    try {
+        const result = await pool.query('SELECT * FROM itens WHERE iditem = $1', [iditem]);
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: 'Produto não encontrado' });
+        }
+        res.json(result.rows[0]);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).json({ error: 'Erro ao buscar produto' });
+    }
+});
+
+// Rota para atualizar um item
+app.put('/itens/:iditem', async (req, res) => {
+    const { iditem } = req.params;
+    const { nomeitem, idadeitem, dataaquisicaoitem, tipoitem, descricaoitem, itemestoque, datavendaitem } = req.body;
+    try {
+        const result = await pool.query(
+            'UPDATE clientes SET nomeitem = $1, idadeitem = $2, dataaquisicaoitem = $3, tipoitem = $4, itemestoque = $5, datavendaitem = $6 WHERE iditem = $7 RETURNING *',
+            [nomeitem, idadeitem, dataaquisicaoitem, tipoitem, descricaoitem, itemestoque, datavendaitem, iditem]
+        );
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: 'Produto não encontrado' });
+        }
+        res.json(result.rows[0]);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).json({ error: 'Erro ao atualizar produto' });
+    }
+});
+
+// Rota para deletar um item
+app.delete('/itens/:iditem', async (req, res) => {
+    const { iditem } = req.params;
+    try {
+        const result = await pool.query('DELETE FROM funcionario WHERE iditem = $1 RETURNING *', [iditem]);
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: 'Item não encontrado' });
+        }
+        res.json({ message: 'Item deletado com sucesso' });
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).json({ error: 'Erro ao deletar item' });
+    }
+});
+
 
 
 app.listen(3000, () => {
