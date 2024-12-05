@@ -35,7 +35,7 @@
   height: 100%;
 } */
 .ItensPage{
-  width:auto;
+  width:100%;
   height:100%;
   background-color: #383A1E;
 }
@@ -228,13 +228,13 @@ align-items: column;
 }
 .Coluna1{
 width: 50%;
-height: 85%;
+height: 100%;
 /* background-color: red; */
 float: left;
 }
 .Coluna2{
 width: 50%;
-height: 85%;
+height: 100%;
 /* background-color: orange; */
 float: right;
 }

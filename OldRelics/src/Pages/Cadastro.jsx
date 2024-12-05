@@ -54,13 +54,6 @@ function Cadastro() {
             <input className="inputs" type={showPassword ? 'text' : 'password'} placeholder="Repita a senha" value={confirmarSenha} onChange={(e) => setConfirmarSenha(e.target.value)}/>
 
             {/* <label className='infoCadastro'>Cpf</label> */}
-            <input className="inputs" placeholder="Cpf" value={funcionario.cpffuncionario} onChange={(e) => setFuncionario({ ...funcionario, cpffuncionario: e.target.value })} />
-
-
-            {/* <label className='infoCadastro'>Cpf</label> */}
-            <input className="inputs" placeholder="Cpf" value={funcionario.cpffuncionario} onChange={(e) => setFuncionario({ ...funcionario, cpffuncionario: e.target.value })} />
-
-            <label className='infoCadastro'>Cpf</label>
             <input className="inputs" maxLength={11} placeholder="Cpf" value={funcionario.cpffuncionario} onChange={(e) => setFuncionario({ ...funcionario, cpffuncionario: e.target.value })}/>
 
             {/* <label className='infoCadastro'>Código</label> */}

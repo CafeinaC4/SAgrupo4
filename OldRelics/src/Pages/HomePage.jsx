@@ -83,7 +83,7 @@ function App() {
         <p className="product-name">Poison Heart</p>
         <p className="product-price">$29.99</p>
         <p className="product-id">ID: 23432252</p>
-        <button className="add-to-cart-btn">Add to cart</button>
+        <button className="add-to-cart-btn">Editar</button>
       </div>
     </div>
 
@@ -100,7 +100,7 @@ function App() {
         <p className="product-name">Dark Mirror</p>
         <p className="product-price">$25.99</p>
         <p className="product-id">ID: 23432252</p>
-        <button className="add-to-cart-btn">Add to cart</button>
+        <button className="add-to-cart-btn">Editar</button>
       </div>
     </div>
 
@@ -116,10 +116,10 @@ function App() {
         }}
       ></div>
       <div className="product-details">
-        <p className="product-name">Long Chair</p>
+        <p className="product-name">Ink</p>
         <p className="product-price">$25.99</p>
         <p className="product-id">ID: 23432252</p>
-        <button className="add-to-cart-btn">Add to cart</button>
+        <button className="add-to-cart-btn">Editar</button>
       </div>
     </div>
 
@@ -136,7 +136,7 @@ function App() {
         <p className="product-name">Long Chair</p>
         <p className="product-price">$25.99</p>
         <p className="product-id">ID: 23432252</p>
-        <button className="add-to-cart-btn">Add to cart</button>
+        <button className="add-to-cart-btn">Editar</button>
       </div>
     </div>
 
