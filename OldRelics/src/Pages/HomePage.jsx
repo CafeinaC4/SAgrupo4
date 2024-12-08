@@ -4,11 +4,12 @@ import Navbar from '../Components/NavBar';
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import Popup from 'reactjs-popup'
+import {Popup} from 'reactjs-popup'
 
 function App() {
   
   const [itens, setItens] = useState([{nomeitem: '', idadeitem: '', dataaquisicaoitem: '', tipoitem: '', descricaoitem: '', itemestoque: '', datavendaitem: ''}])
+  const [isEditing, setIsEditing] = useState(false);
 
   const fetchItens = async () => {
     try {
@@ -46,16 +47,39 @@ function App() {
       <Navbar/>
         <div className='background'>
           <div className="title">
-            <h1>A Bizarre Collection of Antiques & Curios</h1>
-            <p>"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."</p>
-            <Link to="/" className='buttons'>CADASTRO</Link>
-            <Link to="/Login" className='buttons'>LOGIN</Link>
+            <div className="titlep">
+              <h1>A Bizarre Collection of Antiques & Curios</h1>
+              <p>"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."</p>
+              <div className="cadastro">
+                <Link to="/" className='buttons'>CADASTRO</Link>
+                <Link to="/Login" className='buttons'>LOGIN</Link>
+              </div>
+            </div>
           </div>
+          <div className='Nothing'></div>
         </div>
-      <div className='Nothing'></div>
-
       <div className='ItensPage'>
         <div className='Filter'>
+          <button type="button" className="button">
+            <span className="button__text">Add Item</span>
+              <span className="button__icon">
+                <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                width="24" 
+                height="24" 
+                viewBox="0 0 24 24" 
+                strokeWidth="2" 
+                strokeLinejoin="round" 
+                strokeLinecap="round" 
+                stroke="currentColor" 
+                fill="none" 
+                className="svg"
+                >
+                  <line y2="19" y1="5" x2="12" x1="12"></line>
+                  <line y2="12" y1="12" x2="19" x1="5"></line>
+                </svg>
+              </span>
+          </button>
           <div className="search">
             <div className="search-box">
               <div className="search-field">
@@ -83,28 +107,6 @@ function App() {
               </div>
             </div>
           </div>
-
-          <button type="button" className="button">
-            <span className="button__text">Add Item</span>
-              <span className="button__icon">
-                <svg 
-                xmlns="http://www.w3.org/2000/svg" 
-                width="24" 
-                height="24" 
-                viewBox="0 0 24 24" 
-                strokeWidth="2" 
-                strokeLinejoin="round" 
-                strokeLinecap="round" 
-                stroke="currentColor" 
-                fill="none" 
-                className="svg"
-                >
-                  <line y2="19" y1="5" x2="12" x1="12"></line>
-                  <line y2="12" y1="12" x2="19" x1="5"></line>
-                </svg>
-              </span>
-          </button>
-      
         </div>
 
         <div className='Colunas'>
@@ -118,27 +120,44 @@ function App() {
                 }}>
                 </div>
                 <div className="product-details">
-                  <p className="product-name">Poison Heart</p>
-                  <p className="product-price">$29.99</p>
-                  <p className="product-id">ID: 23432252</p>
-                  <Popup trigger={<button className="add-to-cart-btn">Editar</button>} position="right center" className='Pop-up-Cadastro'>
-
-                    <input className="inputs" placeholder="Nome" value={itens.nomeitem} onChange={(e) => setItens({ ...itens, nomeitem: e.target.value })} required/>
-
-                    <input className="inputs" placeholder="Idade" value={itens.idadeitem} onChange={(e) => setItens({ ...itens, idadeitem: e.target.value })} required/>
-
-                    <input type='date' className="inputs" placeholder="Data de Aquisição" value={itens.dataaquisicaoitem} onChange={(e) => setItens({ ...itens, dataaquisicaoitem: e.target.value })} required/>
-
-                    <input className="inputs" placeholder="Tipo do produto" value={itens.tipoitem} onChange={(e) => setItens({ ...itens, tipoitem: e.target.value })} required/>
-                    
-                    <input className="inputs" placeholder="Descrição" value={itens.descricaoitem} onChange={(e) => setItens({ ...itens, descricaoitem: e.target.value })} required/>
-
-                    <input type='checkbox' className="checkbox" value={('')} onChange={(e) => setItens({ ...itens, itemestoque: e.target.checked })} required/>
-                    
-                    <input type='date' className="inputs" placeholder="Data de venda" value={itens.datavendaitem} onChange={(e) => setItens({ ...itens, datavendaitem: e.target.value })}/>
-
-                    <button className="CadastroItem" onClick={handleCadastroItem}/>
-                  </Popup>
+                  {isEditing ? (
+                    <div>
+                      <input
+                      className="inputs"
+                      placeholder="Nome"
+                      value={itens.nomeitem}
+                      required
+                      />
+                      <input
+                      className="inputs"
+                      placeholder="Preço"
+                      value={itens.nomeitem}
+                      required
+                      />
+                      <input
+                      className="inputs"
+                      placeholder="Id Produto"
+                      value={itens.nomeitem}
+                      required
+                      />
+                      
+                    </div>
+                  ) : (
+                    <div>
+                      <p className="product-name">Poison Heart</p>
+                      <p className="product-price">$29.99</p>
+                      <p className="product-id">ID: 23432252</p>
+                    </div>
+                  )}
+                  
+                  <button className="add-to-cart-btn" onClick={() => setIsEditing(!isEditing)}>
+                     {isEditing ? "Salvar" : "Editar"}
+                  </button>
+                  {isEditing ?
+                    (<button className="add-to-cart-btn" onClick={() => setIsEditing(false)}>
+                      Cancelar
+                    </button>):(<></>)
+                  }
                 </div>
               </div>
             </div>

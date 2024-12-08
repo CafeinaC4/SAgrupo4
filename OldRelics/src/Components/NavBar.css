@@ -3,7 +3,9 @@
     justify-content: center;
     align-items: center;
     gap: 25px;
-    min-width: 100vw;
+    /* min-width: 100vw; */
     background-color: rgb(30, 30, 30);
     min-height: 8%;
+    position: absolute;
+    width: 100%;
 }

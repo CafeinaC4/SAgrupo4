@@ -20,7 +20,7 @@ function Cadastro() {
     }else{
       e.preventDefault()
        try {
-         const response = await axios.post('http://localhost:3000/funcionarios', funcionario)
+         const response = await axios.post('./funcionarios', funcionario)
            if (response.status === 201) {
              setFuncionario(response.data);
              alert('Usuário cadastrado no banco de dados! :D')
@@ -37,9 +37,7 @@ function Cadastro() {
         <Navbar/>
       <div className="backgroundz">
         <div className="cardContainerCadastro">
-          <div className="tituloCadastro">
-            <label className="cadastrotxt">Cadastro</label>
-          </div>
+          <label className="cadastrotxt">Cadastro</label>
           <div className="inputsCadastro">
             {/* <label className='infoCadastro'>Nome</label> */}
             <input className="inputs" placeholder="Nome" value={funcionario.nomefuncionario} onChange={(e) => setFuncionario({ ...funcionario, nomefuncionario: e.target.value })} required/>

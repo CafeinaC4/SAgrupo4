@@ -46,10 +46,10 @@ const Login = () => {
 
                 <input className="inputs" placeholder="Senha" type={showPassword ? 'text' : 'password'} value={form.senhafuncionario} onChange={(e) => setForm( {...form, senhafuncionario: e.target.value})}></input>
 
-                <label>Mostrar senha</label>
                 <div className="mostrarSenha">
-                <input type="checkbox" checked={showPassword} onChange={(e) => setShowPassword(e.target.checked)}/>
-                </div>
+            <input type="checkbox" checked={showPassword} onChange={(e) => setShowPassword(e.target.checked)}/>
+            <label>Mostrar senha</label>
+          </div>
 
                 <button className="cadastrar" onClick={handleLogin}>Login</button>
             <Link to="/" className='linkParaLogin'>Não possui uma conta? Clique aqui!</Link>

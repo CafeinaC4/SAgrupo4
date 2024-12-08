@@ -14,6 +14,7 @@
     align-items: center;
     text-align: center;
     gap: 25px;
+    background-size: cover;
   }
   
   .title{
@@ -21,19 +22,38 @@
     font-size: xx-large;
     font-family: 'Times New Roman', serif;
     margin-bottom: 25px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    /* text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); */
     text-align: left;
     justify-content: flex-start;
+    float: left;
+  }
+  .title h1{
+    max-width: 50%;
+  }
+
+  .titlep {
+    height: 100%;
+    padding-top: 10%;
   }
 .buttons{
-    margin-top: 20px;
-    display: flex;
-    justify-content: flex-start;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  color: #000000;
+  padding: auto;
+  text-decoration: solid;
+  background-color: white;
+  margin-right: 50px;
+  padding: 10px;
+  width: 200px;
+  border-radius: 10px;
+  font-family: sans-serif;
 }
-/* .Nothing{
+.Nothing{
   width: 50%;
   height: 100%;
-} */
+  float: right;
+}
 .ItensPage{
   width:100%;
   height:100%;
@@ -42,6 +62,7 @@
 .Filter{
 width:auto;
 height:15%;
+padding-top: 53px;
 /* From Uiverse.io by Li-Deheng */ 
 .search {
   --input-line: #cccccc;
@@ -56,6 +77,7 @@ height:15%;
   --transition-cubic-bezier: 150ms cubic-bezier(0.4,0,0.2,1);
   justify-content: center;
   float: left;
+  margin-left: 50px;;
 }
 
 .search-box {
@@ -172,6 +194,8 @@ height:15%;
   align-items: center;
   border: 1px solid #212121;
   background-color: #212121;
+  float:right;
+  margin-right: 50px;
 }
 
 .button, .button__icon, .button__text {
@@ -378,6 +402,11 @@ float: left;
   .add-to-cart-btn:hover {
     background-color: gray;
   }
+  .Container{
+    width:40%;
+    height:20%;
+    background-color: #EDD7C8;
+  }
 }
 .Itens3{
   width:50%;
@@ -521,4 +550,16 @@ float: left;
   width:100%;
 height:15%;
 background-color: gray;
+}
+.cadastro {
+  display: flex;
+  font-size: x-large;
+}
+.divPopup {
+  padding: 10%;
+  padding-left: 20%;
+  padding-right: 20%;
+}
+.popup-content {
+  left:0;
 }
