@@ -20,7 +20,7 @@ function Cadastro() {
     }else{
       e.preventDefault()
        try {
-         const response = await axios.post('./funcionarios', funcionario)
+         const response = await axios.post('http://localhost:3000/funcionarios', funcionario)
            if (response.status === 201) {
              setFuncionario(response.data);
              alert('Usuário cadastrado no banco de dados! :D')
@@ -58,21 +58,22 @@ function Cadastro() {
             {/* <input className="inputs" placeholder="Codigo de entrada" value={form.codigoAcesso} onChange={(e) => setFuncionario({ ...funcionario, idfuncionario: e.target.value })} required/> */}
           </div>
 
-          <div className="mostrarSenha">
-            <input type="checkbox" checked={showPassword} onChange={(e) => setShowPassword(e.target.checked)}/>
-            <label>Mostrar senha</label>
-          </div>
+          <div className='InferiorTape'>
+            <div className="mostrarSenha">
+              <input type="checkbox" checked={showPassword} onChange={(e) => setShowPassword(e.target.checked)}/>
+              <label>Mostrar senha</label>
+            </div>
 
-          <div className="botaoCadastro">
-            <button className="bcadastrar" onClick={handleCadastro}>
-              Cadastrar
-            </button>
-          </div>
+            <div className="botaoCadastro">
+              <button className="bcadastrar" onClick={handleCadastro}>
+                Cadastrar
+              </button>
+            </div>
 
-          <div className="linkLogin">
-            <Link to="/Login" className='linkParaLogin'>Clique aqui se já possui uma conta</Link>
+            <div className="linkLogin">
+              <Link to="/Login" className='linkParaLogin'>Clique aqui se já possui uma conta</Link>
+            </div>
           </div>
-
         </div>
       </div>
     </div>

@@ -8,4 +8,116 @@
     min-height: 8%;
     position: absolute;
     width: 100%;
+    color: #fff;
+    font-family: unset;
+    display: flex;
+    position: absolute;
+}
+.navbar a {
+    color: #fff;
+    margin: 0 1rem; /* Espaço entre os links */
+    text-decoration: none;
+    color: #000; /* Ajuste conforme o design */
+}
+.navbar-links {
+    flex: 1; /* Ocupa todo o espaço central */
+    text-align: center; /* Centraliza os links */
+  }
+
+.navbar a:visited {
+    color: #fff;
+    text-decoration: none; /* Mantém a sublinhada mesmo após visitar */
+}
+.user-info-btn {
+    width: 40px; /* Define a largura do botão */
+    height: 40px; /* Define a altura do botão */
+    background-color: #fff;
+    color: white;
+    border: none;
+    border-radius: 50%; /* Torna o botão redondo */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-left: auto;
+    margin: 15px;
+    position: absolute;
+    right: 10px;
+    background-image: url('../assets/maca.webp');
+    background-size: 50px;
+    background-position-x: -4px;
+    background-position-y: -5px;
+  }
+  
+  .user-info-btn:hover {
+    background-color: #777;
+  }
+  
+  .user-icon {
+    font-size: 20px; /* Tamanho do ícone */
+  }
+  
+  .popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #212121;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    z-index: 1000;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #fff;
+  }
+  
+  .popup-content {
+    text-align: left;
+    background-color: #212121;  /* fundo escuro para o pop-up */
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+  }
+  .popup-content h2 {
+    margin-bottom: 10px; /* Espaçamento inferior no título */
+  }
+  
+  .popup-content p {
+    margin-bottom: 8px; /* Espaçamento entre parágrafos */
+  }
+  
+  .close-btn {
+    background-color: #555;  /* Cor neutra */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+  }
+  
+  .close-btn:hover {
+    background-color: #333;  /* Escurece no hover */  }
+  /* NavBar.css */
+
+/* Estilo do botão de logout */
+.logout-btn {
+    background-color: #d9534f;  /* Vermelho vibrante */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+  }
+  
+  .logout-btn:hover {
+    background-color: #c9302c;  /* Vermelho mais escuro no hover */  
+}
+.popup-buttons {
+    display: flex;
+    justify-content: space-between;  /* Distribui os botões nas extremidades */
+    margin-top: auto;  /* Faz com que os botões fiquem na parte inferior */
 }

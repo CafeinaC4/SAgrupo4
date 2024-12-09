@@ -6,7 +6,7 @@ const app = express();
 const pool = new Pool({
     user: 'postgres',
     host: 'localhost',
-    database: 'Old Relics',
+    database: 'postgres',
     password: 'senai',
     port: 5432,
 });
@@ -24,7 +24,7 @@ app.post('/funcionarios', async (req, res) => {
         res.status(201).json(result.rows[0])
     } catch (err) {
         console.error(err.message)
-        res.status(500).json({ error: 'Erro ao cadastrar usuário!' })
+        res.status(500).json({ error: 'Erro ao cadastrar usuário!' + err.message})
     }
 })
 
@@ -34,7 +34,7 @@ app.get('/funcionarios', async (req, res) => {
         const result = await pool.query('SELECT * FROM funcionarios');
         res.json(result.rows);
     } catch (err) {
-        console.error(err.message);
+        console.error(err.message); 
         res.status(500).json({ error: 'Erro ao buscar funcionarios' });
     }
 });
@@ -134,11 +134,11 @@ app.get('/itens/:iditem', async (req, res) => {
 // Rota para atualizar um item
 app.put('/itens/:iditem', async (req, res) => {
     const { iditem } = req.params;
-    const { nomeitem, idadeitem, dataaquisicaoitem, tipoitem, descricaoitem, itemestoque, datavendaitem } = req.body;
+    const { nomeitem, idadeitem, dataaquisicaoitem, tipoitem, descricaoitem, itemestoque, datavendaitem, preco } = req.body;
     try {
         const result = await pool.query(
-            'UPDATE clientes SET nomeitem = $1, idadeitem = $2, dataaquisicaoitem = $3, tipoitem = $4, itemestoque = $5, datavendaitem = $6 WHERE iditem = $7 RETURNING *',
-            [nomeitem, idadeitem, dataaquisicaoitem, tipoitem, descricaoitem, itemestoque, datavendaitem, iditem]
+            'UPDATE itens SET nomeitem = $1, idadeitem = $2, dataaquisicaoitem = $3, tipoitem = $4, descricaoitem=$5, itemestoque = $6, datavendaitem = $7, preco = $8 WHERE id_item = $9 RETURNING *',
+            [nomeitem, idadeitem, dataaquisicaoitem, tipoitem, descricaoitem, itemestoque, datavendaitem, preco, iditem]
         );
         if (result.rows.length === 0) {
             return res.status(404).json({ error: 'Produto não encontrado' });

@@ -3,6 +3,7 @@ import './Login.css'
 import axios from 'axios'
 import Navbar from '../Components/NavBar';
 import { Link, useNavigate } from 'react-router-dom';
+import { useUser } from '../Context/UserContext';
 
 //me s
 const Login = () => {
@@ -10,6 +11,7 @@ const Login = () => {
   const [funcionarios, setFuncionarios] = useState([]);
   const [form, setForm] = useState({nomefuncionario: '', senhafuncionario: ''})
   const [showPassword, setShowPassword] = useState(false)
+  const { setUser } = useUser() || {};
 
   const fetchFuncionario = async () => {
     try {
@@ -29,11 +31,13 @@ const Login = () => {
 
     if (!user) {
       alert('Usuário ou senha inválidos!')
-    return
     } else {
       alert('Login efetuado com sucesso!')
+      setUser(user); // Atualiza o contexto global
       navigate('/Home')
     }
+
+    setUser(user)
   }
 
   return (
@@ -46,13 +50,13 @@ const Login = () => {
 
                 <input className="inputs" placeholder="Senha" type={showPassword ? 'text' : 'password'} value={form.senhafuncionario} onChange={(e) => setForm( {...form, senhafuncionario: e.target.value})}></input>
 
-                <div className="mostrarSenha">
+                <div className="mostrarSenhaLogin">
             <input type="checkbox" checked={showPassword} onChange={(e) => setShowPassword(e.target.checked)}/>
             <label>Mostrar senha</label>
           </div>
 
                 <button className="cadastrar" onClick={handleLogin}>Login</button>
-            <Link to="/" className='linkParaLogin'>Não possui uma conta? Clique aqui!</Link>
+            <Link to="/" className='linkParaCadastro'>Não possui uma conta? Clique aqui!</Link>
           </div>
         </div>
       </div>

@@ -42,12 +42,16 @@
   color: #000000;
   padding: auto;
   text-decoration: solid;
-  background-color: white;
+  background-color: rgb(255, 255, 255, 0.6);
   margin-right: 50px;
   padding: 10px;
   width: 200px;
   border-radius: 10px;
   font-family: sans-serif;
+}
+.buttons:hover {
+  background-color: rgba(255, 255, 255, 0.8); /* Fundo mais escuro no hover */
+  color: black; /* Texto continua preto */
 }
 .Nothing{
   width: 50%;
@@ -55,29 +59,33 @@
   float: right;
 }
 .ItensPage{
-  width:100%;
-  height:100%;
+  width: 100%;
+  min-height: 100vh; /* Garante que a div ocupe toda a altura da tela e continue com o conteúdo ao rolar */
   background-color: #383A1E;
+  display: flex;
+  flex-direction: column;
 }
 .Filter{
 width:auto;
 height:15%;
 padding-top: 53px;
-/* From Uiverse.io by Li-Deheng */ 
+
+/* Search Button */ 
+
 .search {
   --input-line: #cccccc;
   --input-text-color: #808080;
   --input-text-hover-color: transparent;
   --input-border-color: #808080;
   --input-border-hover-color: #999999;
-  --input-bg-color: #333333;
-  --search-max-width: 250px;
-  --search-min-width: 150px;
+  --input-bg-color: #212121;
+  --search-max-width: 700px;
+  --search-min-width: 960px;
   --border-radius: 5px;
   --transition-cubic-bezier: 150ms cubic-bezier(0.4,0,0.2,1);
   justify-content: center;
   float: left;
-  margin-left: 50px;;
+  margin-left: 50px;
 }
 
 .search-box {
@@ -145,7 +153,7 @@ padding-top: 53px;
 /*Search button*/
 .search-box-icon {
   width: 52px;
-  height: 35px;
+  height: 47px;
   position: absolute;
   top: -6px;
   right: -21px;
@@ -161,7 +169,7 @@ padding-top: 53px;
 
 .btn-icon-content {
   width: 52px;
-  height: 35px;
+  height: 47px;
   top: -6px;
   right: -21px;
   background: transparent;
@@ -181,14 +189,123 @@ padding-top: 53px;
   width: 21px;
   height: 21px;
   position: absolute;
-  top: 7px;
+  top: 14px;
   right: 15px;
 }
-/* From Uiverse.io by andrew-demchenk0 */ 
+
+/* filter button  */
+
+.select {
+  width: fit-content;
+  cursor: pointer;
+  position: relative;
+  transition: 300ms;
+  color: white;
+  overflow: hidden;
+  margin-left: 50px;
+  margin-right: 50px;
+}
+
+.selected {
+  background-color: #212121;
+  padding: 5px;
+  margin-bottom: 3px;
+  border-radius: 5px;
+  position: relative;
+  z-index: 100000;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-left: 50px;
+  margin-right: 50px;
+  height: 37px;
+}
+
+.arrow {
+  position: relative;
+  right: 0px;
+  height: 100%;
+  transform: rotate(-90deg);
+  width: 25px;
+  fill: white;
+  z-index: 100000;
+  transition: 300ms;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  padding: 5px;
+  background-color: #212121;
+  position: relative;
+  top: -100px;
+  opacity: 0;
+  transition: 300ms;
+  margin-left: 50px;
+  margin-right: 50px;
+}
+
+.select:hover > .options {
+  opacity: 1;
+  top: 0;
+}
+
+.select:hover > .selected .arrow {
+  transform: rotate(0deg);
+}
+
+.option {
+  border-radius: 5px;
+  padding: 5px;
+  transition: 300ms;
+  background-color: #212121;
+  width: 150px;
+  font-size: 15px;
+}
+.option:hover {
+  background-color: gray;
+}
+
+.options input[type="radio"] {
+  display: none;
+}
+
+.options label {
+  display: inline-block;
+}
+.options label::before {
+  content: attr(data-txt);
+}
+
+.options input[type="radio"]:checked + label {
+  display: none;
+}
+
+.options input[type="radio"]#all:checked + label {
+  display: none;
+}
+
+.select:has(.options input[type="radio"]#all:checked) .selected::before {
+  content: attr(data-default);
+}
+.select:has(.options input[type="radio"]#option-1:checked) .selected::before {
+  content: attr(data-one);
+}
+.select:has(.options input[type="radio"]#option-2:checked) .selected::before {
+  content: attr(data-two);
+}
+.select:has(.options input[type="radio"]#option-3:checked) .selected::before {
+  content: attr(data-three);
+}
+
+/* Add Item Button */ 
+
 .button {
   position: relative;
   width: 150px;
-  height: 40px;
+  height: 45px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -196,10 +313,13 @@ padding-top: 53px;
   background-color: #212121;
   float:right;
   margin-right: 50px;
+  border-radius: 5px;
+  border: 1px solid var(--input-border-color);
 }
 
 .button, .button__icon, .button__text {
   transition: all 0.3s;
+  border-radius: 5px;
 }
 
 .button .button__text {
@@ -212,7 +332,7 @@ padding-top: 53px;
   position: absolute;
   transform: translateX(109px);
   height: 100%;
-  width: 39px;
+  width: 40px;
   background-color: gray;
   display: flex;
   align-items: center;
@@ -222,6 +342,7 @@ padding-top: 53px;
 .button .svg {
   width: 30px;
   stroke: #fff;
+  
 }
 
 .button:hover {
@@ -252,7 +373,7 @@ height:100%;
 align-items: column;
 }
 .Coluna1{
-width: 50%;
+width: 100%;
 height: 100%;
 /* background-color: red; */
 float: left;
@@ -264,10 +385,10 @@ height: 100%;
 float: right;
 }
 .Itens1{
-width:50%;
-height: 100%;
-/* background-color: green; */
-float: left;
+  width:25%;
+  /* background-color: green; */
+  float: left;
+  margin-bottom: 50px;
 /* Container geral do card */
 .product-card {
   width: 250px;
