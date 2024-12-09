@@ -1,20 +1,42 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './NavBar.css';
-import { useUser } from '../Context/UserContext';  // Importe o useUser para acessar o contexto
+import { useUser } from '../Context/UserContext';
 
 function Navbar() {
   const [showPopup, setShowPopup] = useState(false);
-  const { user, setUser } = useUser();  // Use o contexto global para obter o usuário e a função setUser
+  const [isEditing, setIsEditing] = useState(false);
+  const { user, setUser } = useUser();
+  const [editableUser, setEditableUser] = useState(user || {});
   const navigate = useNavigate();
 
   const handlePopupToggle = () => {
     setShowPopup(!showPopup);
   };
 
+  const handleEditToggle = () => {
+    setEditableUser(user); // Restaura os dados originais antes de entrar no modo de edição
+    setIsEditing(!isEditing);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditableUser({ ...editableUser, [name]: value });
+  };
+
+  const handleSaveChanges = () => {
+    setUser(editableUser); // Atualiza o contexto global com os novos dados
+    setIsEditing(false); // Sai do modo de edição
+  };
+
+  const handleCancelEdit = () => {
+    setEditableUser(user); // Restaura os dados originais
+    setIsEditing(false); // Sai do modo de edição
+  };
+
   const handleLogout = () => {
-    setUser(null);  // Limpa o estado global de user
-    navigate('/Home');  // Redireciona para a página de login
+    setUser(null); // Limpa o contexto global do usuário
+    navigate('/Home'); // Redireciona para a página inicial
   };
 
   return (
@@ -26,18 +48,57 @@ function Navbar() {
       <button className="user-info-btn" onClick={handlePopupToggle}>
         <span className="user-icon"></span>
       </button>
-      {showPopup && user && (  // O botão de logout só será exibido quando user não for null
+      {showPopup && user && (
         <div className="popup">
           <div className="popup-content">
             <h2>Informações do Usuário</h2>
-            <p>Nome: {user?.nomefuncionario}</p>
-            <p>Email: {user?.emailfuncionario}</p>
-            <div className="popup-buttons"> {/* Alinha os botões */}
+            {isEditing ? (
+              <>
+                <label>
+                  Nome:
+                  <input
+                    type="text"
+                    name="nomefuncionario"
+                    value={editableUser.nomefuncionario}
+                    onChange={handleInputChange}
+                  />
+                </label>
+                <label>
+                  Email:
+                  <input
+                    type="email"
+                    name="emailfuncionario"
+                    value={editableUser.emailfuncionario}
+                    onChange={handleInputChange}
+                  />
+                </label>
+              </>
+            ) : (
+              <>
+                <p>Nome: {user?.nomefuncionario}</p>
+                <p>Email: {user?.emailfuncionario}</p>
+              </>
+            )}
+            <div className="popup-buttons">
+            <button className="logout-btn" onClick={handleLogout}>
+                SAIR
+              </button>
+              {isEditing ? (
+                <>
+                  <button className="save-btn" onClick={handleSaveChanges}>
+                    SALVAR
+                  </button>
+                  <button className="cancel-btn" onClick={handleCancelEdit}>
+                    CANCELAR
+                  </button>
+                </>
+              ) : (
+                <button className="edit-btn" onClick={handleEditToggle}>
+                  EDITAR
+                </button>
+              )}
               <button className="close-btn" onClick={handlePopupToggle}>
                 FECHAR
-              </button>
-              <button className="logout-btn" onClick={handleLogout}>
-                SAIR
               </button>
             </div>
           </div>

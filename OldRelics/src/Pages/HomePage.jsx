@@ -149,6 +149,7 @@ function App() {
 
   const removeFirstItem = () => {
     setItem(item.slice(1)); // Remove o primeiro item da lista
+    setFilteredItem(filteredItem.slice(1));
   };
 
   const addItem = () => {
@@ -160,7 +161,7 @@ function App() {
     };
     setIsEditing(null)
     setItem([newItem, ...item]);
-    setFilteredItem([newItem, ...item]);
+    setFilteredItem([newItem, ...filteredItem]);
   };
 
   const cancel = () => {
