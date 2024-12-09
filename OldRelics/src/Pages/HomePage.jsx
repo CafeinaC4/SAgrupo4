@@ -4,7 +4,6 @@ import Navbar from '../Components/NavBar';
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import {Popup} from 'reactjs-popup'
 import { useUser } from '../Context/UserContext';  // Importe o useUser para acessar o contexto
 
 function App() {
@@ -16,6 +15,7 @@ function App() {
   // const [funcionarios, setFuncionarios] = useState([]);
   const [filteredItem, setFilteredItem] = useState([]);
   const [filter, setFilter] = useState("");  // Estado para o filtro do nome do item
+  const [filtered, setFiltered] = useState()
 
   const ProductDetails = ({ itm, isEditing, setIsEditing }) => {
     const formatPrice = (value) => {
@@ -68,9 +68,9 @@ function App() {
   
       try {
         let response;
-        if (itm.id_item) {
+        if (itm.iditem) {
           // Se o item já existe, envia a atualização com PUT
-          response = await axios.put(`http://localhost:3000/itens/${itm.id_item}`, updatedItem);
+          response = await axios.put(`http://localhost:3000/itens/${itm.iditem}`, updatedItem);
         } else {
           // Se o item não tem id, é um novo item, então envia com POST
           response = await axios.post('http://localhost:3000/itens', updatedItem);
@@ -78,13 +78,13 @@ function App() {
   
         // Atualiza o estado global ou local após o sucesso da requisição
         setItem((prevItens) => {
-          if (itm.id_item) {
+          if (itm.iditem) {
             // Se for um item existente, apenas atualize o item na lista
             setFilteredItem(prevItens.map((item) =>
-              item.id_item === itm.id_item ? { ...item, nomeitem: nome, preco: preco, idadeitem: idade } : item
+              item.iditem === itm.iditem ? { ...item, nomeitem: nome, idadeitem: idade, tipoitem: tipo, descricaoitem: descicao, itememestoque: emestoque, datavendaitem: datavenda, dataaquisicaoiem: dataaquisicao, precoitem: preco} : item
             ));
             return prevItens.map((item) =>
-              item.id_item === itm.id_item ? { ...item, nomeitem: nome, preco: preco, idadeitem: idade } : item
+              item.iditem === itm.iditem ? { ...item, nomeitem: nome, preco: preco, idadeitem: idade } : item
             );
           } else {
             // Se for um novo item, adicione-o à lista
@@ -105,7 +105,7 @@ function App() {
         <div className="product-card">
           <div className='product-image'></div>
           <div className="product-details">
-            {isEditing === itm.id_item || !itm.id_item ? (
+            {isEditing === itm.iditem || !itm.iditem ? (
               <div>
                 <input
                   className="inputs"
@@ -128,7 +128,7 @@ function App() {
                   onChange={handlePrecoChange} // Atualiza o estado ao digitar
                   required
                 />
-                <p className="product-id">ID: {itm.id_item}</p>
+                <p className="product-id">ID: {itm.iditem}</p>
                 <button className="add-to-cart-btn" onClick={() => saveChanges()}>Salvar</button> {/* Botão para salvar a edição */}
                 <button className="add-to-cart-btn" onClick={() => cancel()}>Cancelar</button> {/* Botão para ativar o modo de edição */}
               </div>
@@ -137,8 +137,8 @@ function App() {
                 <p>{itm.nomeitem}</p>
                 <p>R${formatPrice(itm.preco)}</p>
                 <p>{itm.idadeitem}</p>
-                <p className="product-id">ID: {itm.id_item}</p>
-                <button className="add-to-cart-btn" onClick={() => setIsEditing(itm.id_item)}>Editar</button> {/* Botão para ativar o modo de edição */}
+                <p className="product-id">ID: {itm.iditem}</p>
+                <button className="add-to-cart-btn" onClick={() => setIsEditing(itm.iditem)}>Editar</button> {/* Botão para ativar o modo de edição */}
               </div>
             )}
           </div>
@@ -262,9 +262,9 @@ function App() {
               </div>
             </div>
           </div>
-          <div class="select">
+          <div className="select">
             <div
-              class="selected"
+              className="selected"
               data-default="All"
               data-one="option-1"
               data-two="option-2"
@@ -274,29 +274,29 @@ function App() {
                 xmlns="http://www.w3.org/2000/svg"
                 height="1em"
                 viewBox="0 0 512 512"
-                class="arrow"
+                className="arrow"
               >
                 <path
                   d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
                 ></path>
               </svg>
             </div>
-            <div class="options">
+            <div className="options">
               <div title="all">
-                <input id="all" name="option" type="radio" checked="true" />
-                <label class="option" for="all" data-txt="Categoria"></label>
+                <input id="all" name="option" type="radio" checked={filtered} onChange={handleFilterChange}></input>
+                <label className="option" htmlFor="all" data-txt="Categorias" data-text="Todos"></label>
               </div>
               <div title="option-1">
                 <input id="option-1" name="option" type="radio" />
-                <label class="option" for="option-1" data-txt="Categoria 1"></label>
+                <label className="option" htmlFor="option-1" data-txt="Pulseiras"></label>
               </div>
               <div title="option-2">
                 <input id="option-2" name="option" type="radio" />
-                <label class="option" for="option-2" data-txt="option-2"></label>
+                <label className="option" htmlFor="option-2" data-txt="Vasos"></label>
               </div>
               <div title="option-3">
                 <input id="option-3" name="option" type="radio" />
-                <label class="option" for="option-3" data-txt="option-3"></label>
+                <label className="option" htmlFor="option-3" data-txt="Bonecos"></label>
               </div>
             </div>
           </div>
@@ -307,7 +307,7 @@ function App() {
           {filteredItem && filteredItem.length > 0 ? (
             filteredItem.map((itm) => (
               <ProductDetails
-                key={itm.id_item}
+                key={itm.iditem}
                 itm={itm}
                 isEditing={isEditing}
                 setIsEditing={setIsEditing}

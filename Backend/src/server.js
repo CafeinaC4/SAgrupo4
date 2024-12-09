@@ -6,7 +6,7 @@ const app = express();
 const pool = new Pool({
     user: 'postgres',
     host: 'localhost',
-    database: 'postgres',
+    database: 'Old Relics',
     password: 'senai',
     port: 5432,
 });
@@ -88,15 +88,22 @@ app.delete('/funcionarios/:idfuncionario', async (req, res) => {
     }
 });
 
+//
+//
+//
+//
 // Crud dos itens
+//
+//
+//
 
 //Adicionar item
 app.post('/itens', async (req, res) => {
-    const { nomeitem, idadeitem, dataaquisicaoitem, tipoitem, descricaoitem, itemestoque, datavendaitem } = req.body
+    const { nomeitem, idadeitem, dataaquisicaoitem, tipoitem, descricaoitem, itemestoque, datavendaitem, precoitem, iditem } = req.body
     try {
         const result = await pool.query(
-            'INSERT INTO itens (nomeitem, idadeitem, dataaquisicaoitem, tipoitem, descricaoitem, itemestoque, datavendaitem) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
-            [nomeitem, idadeitem, dataaquisicaoitem, tipoitem, descricaoitem, itemestoque, datavendaitem]
+            'INSERT INTO itens (nomeitem, idadeitem, dataaquisicaoitem, tipoitem, descricaoitem, itemestoque, datavendaitem, precoitem) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
+            [nomeitem, idadeitem, dataaquisicaoitem, tipoitem, descricaoitem, itemestoque, datavendaitem, precoitem, iditem]
         )
         res.status(201).json(result.rows[0])
     } catch (err) {
@@ -105,7 +112,7 @@ app.post('/itens', async (req, res) => {
     }
 })
 
-// Rota para buscar todos os item
+// Rota para buscar todos os itens
 app.get('/itens', async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM itens');
@@ -134,11 +141,11 @@ app.get('/itens/:iditem', async (req, res) => {
 // Rota para atualizar um item
 app.put('/itens/:iditem', async (req, res) => {
     const { iditem } = req.params;
-    const { nomeitem, idadeitem, dataaquisicaoitem, tipoitem, descricaoitem, itemestoque, datavendaitem, preco } = req.body;
+    const { nomeitem, idadeitem, dataaquisicaoitem, tipoitem, descricaoitem, itemestoque, datavendaitem, precoitem } = req.body;
     try {
         const result = await pool.query(
-            'UPDATE itens SET nomeitem = $1, idadeitem = $2, dataaquisicaoitem = $3, tipoitem = $4, descricaoitem=$5, itemestoque = $6, datavendaitem = $7, preco = $8 WHERE id_item = $9 RETURNING *',
-            [nomeitem, idadeitem, dataaquisicaoitem, tipoitem, descricaoitem, itemestoque, datavendaitem, preco, iditem]
+            'UPDATE itens SET nomeitem = $1, idadeitem = $2, dataaquisicaoitem = $3, tipoitem = $4, descricaoitem=$5, itemestoque = $6, datavendaitem = $7, precoitem = $8 WHERE iditem = $9 RETURNING *',
+            [nomeitem, idadeitem, dataaquisicaoitem, tipoitem, descricaoitem, itemestoque, datavendaitem, precoitem, iditem]
         );
         if (result.rows.length === 0) {
             return res.status(404).json({ error: 'Produto não encontrado' });
