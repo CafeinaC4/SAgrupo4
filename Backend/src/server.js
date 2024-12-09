@@ -6,7 +6,8 @@ const app = express();
 const pool = new Pool({
     user: 'postgres',
     host: 'localhost',
-    database: 'Old Relics',
+    // database: 'Old Relics',
+    database: 'postgres',
     password: 'senai',
     port: 5432,
 });
@@ -103,7 +104,7 @@ app.post('/itens', async (req, res) => {
     try {
         const result = await pool.query(
             'INSERT INTO itens (nomeitem, idadeitem, dataaquisicaoitem, tipoitem, descricaoitem, itemestoque, datavendaitem, precoitem) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
-            [nomeitem, idadeitem, dataaquisicaoitem, tipoitem, descricaoitem, itemestoque, datavendaitem, precoitem, iditem]
+            [nomeitem, idadeitem, dataaquisicaoitem, tipoitem, descricaoitem, itemestoque, datavendaitem, precoitem]
         )
         res.status(201).json(result.rows[0])
     } catch (err) {
