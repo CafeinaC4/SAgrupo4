@@ -1,6 +1,5 @@
 DROP TABLE IF EXISTS itens;
-
-CREATE TABLE IF NOT EXISTS itens
+CREATE TABLE itens
 (
     iditem SERIAL PRIMARY KEY,
     nomeitem character varying(255) COLLATE pg_catalog."default" NOT NULL,

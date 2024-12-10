@@ -12,7 +12,6 @@ function App() {
   const [iditemEditing, setiditemEditing] = useState(false);
   const { user, setUser } = useUser();  
   const [ item, setItem ] = useState([]); 
-  // const [funcionarios, setFuncionarios] = useState([]);
   const [filteredItem, setFilteredItem] = useState([]);
   const [filter, setFilter] = useState("");  // Estado para o filtro do nome do item
 
