@@ -14,7 +14,7 @@ CREATE TABLE itens
 
 DROP TABLE IF EXISTS funcionarios;
 CREATE TABLE funcionarios (
-    id SERIAL PRIMARY KEY,
+    idfuncionario SERIAL PRIMARY KEY,
     nomefuncionario VARCHAR(100) NOT NULL,
     emailfuncionario VARCHAR(100) UNIQUE NOT NULL,
     senhafuncionario VARCHAR(255) NOT NULL,
