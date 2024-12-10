@@ -4,16 +4,16 @@ import Navbar from '../Components/NavBar';
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import { useUser } from '../Context/UserContext';  // Importe o useUser para acessar o contexto
+import { useUser } from '../Context/UserContext'; 
 
 function App() {
   
-  // const [itens, setItens] = useState([{nomeitem: '', idadeitem: '', dataaquisicaoitem: '', tipoitem: '', descricaoitem: '', itemestoque: '', datavendaitem: ''}])
-  const [iditemEditing, setiditemEditing] = useState(false);
-  const { user, setUser } = useUser();  
-  const [ item, setItem ] = useState([]); 
-  const [filteredItem, setFilteredItem] = useState([]);
-  const [filter, setFilter] = useState("");  // Estado para o filtro do nome do item
+  const [iditemEditing, setiditemEditing] = useState(-1);
+  const {user} = useUser();  
+  const [items, setItems ] = useState([]); 
+  const [filteredItems, setFilteredItems] = useState([]);
+  const [order, setOrder] = useState("");
+  const [filter, setFilter] = useState("");
 
   const formatDate = (value) => {
     if(!value) return;
@@ -27,23 +27,9 @@ function App() {
     return `${year}-${month}-${day}`;
   };
 
+
   const ProductDetails = ({ itm, iditemEditing, setiditemEditing }) => {
     itm.idadeitem = formatDate(itm.idadeitem)
-    const formatPrice = (value) => {
-      // Verifica se o valor é um número válido
-      const numericValue = parseFloat(value);
-      
-      // Se não for um número válido, retorna '0,00'
-      if (isNaN(numericValue)) {
-        return '0,00';
-      }
-    
-      // Formata o número com duas casas decimais, separador de milhar e vírgula como separador decimal
-      return numericValue
-        .toFixed(2) // duas casas decimais
-        .replace('.', ',') // troca o separador
-        .replace(/\B(?=(\d{3})+(?!\d))/g, '.'); // pontos como separador de milhar
-    };
 
     // Estados locais
     const [nome, setNome] = useState(itm.nomeitem);
@@ -62,6 +48,14 @@ function App() {
     const handlePrecoChange = (e) => setPreco(e.target.value);
     const handleIdadeChange = (e) => setIdade(e.target.value);
   
+    const cancel = () => {
+      if(!itm.iditem) {
+        removeFirstItem();
+      }
+  
+      setiditemEditing(-1);
+    };
+
     // Função para salvar as mudanças
     const saveChanges = async () => {
       // Garantir que 'itm' esteja definido antes de tentar acessar suas propriedades
@@ -88,16 +82,14 @@ function App() {
         }
   
         // Atualiza o estado global ou local após o sucesso da requisição
-        setItem((prevItens) => {
+        setItems((prevItens) => {
           if (itm.iditem) {
             // Se for um item existente, apenas atualize o item na lista
-            setItem(prevItens.map((item) =>
-              // item.iditem === itm.iditem ? { ...item, nomeitem: nome, idadeitem: idade, tipoitem: tipo, descricaoitem: descicao, itememestoque: emestoque, datavendaitem: datavenda, dataaquisicaoiem: dataaquisicao, precoitem: preco} : item
+            setItems(prevItens.map((item) =>
               item.iditem === itm.iditem ? { ...item, nomeitem: nome, idadeitem: idade, precoitem: preco} : item
             ));
             
-            setFilteredItem(prevItens.map((item) =>
-              // item.iditem === itm.iditem ? { ...item, nomeitem: nome, idadeitem: idade, tipoitem: tipo, descricaoitem: descicao, itememestoque: emestoque, datavendaitem: datavenda, dataaquisicaoiem: dataaquisicao, precoitem: preco} : item
+            setFilteredItems(filteredItems.map((item) =>
               item.iditem === itm.iditem ? { ...item, nomeitem: nome, idadeitem: idade, precoitem: preco} : item
             ));
 
@@ -106,15 +98,15 @@ function App() {
             );
           } else {
             // Se for um novo item, adicione-o à lista
-            setFilteredItem([response.data, ...prevItens.slice(1)]);
-            setItem([response.data, ...prevItens.slice(1)]);
+            setFilteredItems([response.data, ...filteredItems.slice(1)]);
+            setItems([response.data, ...prevItens.slice(1)]);
 
             return [response.data, ...prevItens.slice(1)];
           }
         });
   
         // Desativa o modo de edição após salvar
-        setiditemEditing(false);
+        setiditemEditing(-1);
       } catch (error) {
         console.error('Error saving item:', error);
       }
@@ -169,34 +161,32 @@ function App() {
   };
 
   const removeFirstItem = () => {
-    setItem(item.slice(1)); // Remove o primeiro item da lista
-    setFilteredItem(filteredItem.slice(1));
+    setItems(items.slice(1)); // Remove o primeiro item da lista
+    setFilteredItems(filteredItems.slice(1));
   };
 
   const addItem = () => {
+    if(!iditemEditing) return;
+    if(filteredItems.length > 0 && !filteredItems[0].iditem) return;
+
     const newItem = {
-      id: null,
-      nomeitem: 'Novo Item', // Nome do item (você pode personalizar isso)
-      preco: 0, // Preço do item (ou qualquer outro dado que você queira)+
+      iditem: null,
+      nomeitem: 'Novo Item',
+      precoitem: 0,
       idadeitem: 0
     };
     setiditemEditing(null)
-    setItem([newItem, ...item]);
-    setFilteredItem([newItem, ...filteredItem]);
+    setItems([newItem, ...items]);
+    setFilteredItems([newItem, ...filteredItems]);
   };
 
-  const cancel = () => {
-    if(!iditemEditing) {
-      removeFirstItem();
-    }
-    setiditemEditing(false);
-  };
+  
 
   const fetchItens = async () => {
     try {
       const response = await axios.get('http://localhost:3000/itens')
-      setItem(response.data);
-      setFilteredItem(response.data);
+      setItems(response.data.sort((a, b) => b.precoitem - a.precoitem));
+      setFilteredItems(response.data.sort((a, b) => b.precoitem - a.precoitem));
     } catch (error) {
       console.error('Error fetching itens:', error)
     }
@@ -207,12 +197,46 @@ function App() {
   }, [])
 
   const handleFilterChange = (e) => {
-    const value = e.target.value;
-    setFilter(value);
+    var filterValue =  e.target.value;
+    setFilter(filterValue);
+
+    var filteredItems = items.filter(itm => itm.nomeitem.toLowerCase().includes(filterValue.toLowerCase()));
 
     // Filtrar os itens com base no nome (considerando que o nomeitem é case-insensitive)
-    const filteredItem = item.filter(itm => itm.nomeitem.toLowerCase().includes(value.toLowerCase()));
-    setFilteredItem(filteredItem);
+    setFilteredItems(filteredItems);
+  };
+
+  const handleOrderChange = (e) => {
+    const selectedOption = e.target.dataset.value;
+    setOrder(selectedOption);
+    
+    var filteredItemsAux = filteredItems;
+    var itemsAux = items;
+
+    // Realizar ordenação
+    switch (selectedOption) {
+      case "option-1": // Maior preço
+        filteredItemsAux = filteredItems.sort((a, b) => b.precoitem - a.precoitem);
+        itemsAux = items.sort((a, b) => b.precoitem - a.precoitem);
+        break;
+      case "option-2": // Menor preço
+        filteredItemsAux = filteredItems.sort((a, b) => a.precoitem - b.precoitem);
+        itemsAux = items.sort((a, b) => a.precoitem - b.precoitem);
+        break;
+      case "option-3": // Mais antigo
+        filteredItemsAux = filteredItems.sort((a, b) => new Date(a.idadeitem) - new Date(b.idadeitem));
+        itemsAux = items.sort((a, b) => new Date(a.idadeitem) - new Date(b.idadeitem));
+        break;
+      case "option-4": // Mais novo
+        filteredItemsAux = filteredItems.sort((a, b) => new Date(b.idadeitem) - new Date(a.idadeitem));
+        itemsAux = items.sort((a, b) => new Date(b.idadeitem) - new Date(a.idadeitem));
+        break;
+      default:
+        break; // Caso não seja nenhuma opção, não faz nada
+    }
+
+    setFilteredItems(filteredItemsAux);
+    setItems(itemsAux);
   };
 
   return (
@@ -261,9 +285,9 @@ function App() {
                 <input 
                 placeholder="Procurar Itens" 
                 className="input" 
-                type="text" 
-                onChange={handleFilterChange}
+                type="text"
                 value={filter}
+                onChange={handleFilterChange}
                 />
                 <div className="search-box-icon">
                   <button className="btn-icon-content">
@@ -285,40 +309,33 @@ function App() {
             </div>
           </div>
           <div className="select">
-            <div
-              className="selected"
-              data-default="All"
-              data-one="option-1"
-              data-two="option-2"
-              data-three="option-3"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="1em"
-                viewBox="0 0 512 512"
-                className="arrow"
+            <div className="selected" data-default="Maior preço"
+              data-one="Maior preço"
+              data-two="Menor preço"
+              data-three="Mais antigo"
+              data-four="Mais novo"
               >
-                <path
-                  d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
-                ></path>
+              <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512" className="arrow">
+                <path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"></path>
               </svg>
             </div>
             <div className="options">
-              <div title="all">
-                <input id="all" name="option" type="radio" checked={filteredItem} onChange={handleFilterChange}></input>
-                <label className="option" htmlFor="all" data-txt="Categorias" data-text="Todos"></label>
+              <div>
+                <input id="option-1" name="option" type="radio" checked={order === "option-1" || !order} onChange={handleOrderChange}/>
+                <label className="option" data-txt="Maior preço" data-value="option-1" onClick={handleOrderChange} ></label>
               </div>
-              <div title="option-1">
-                <input id="option-1" name="option" type="radio" />
-                <label className="option" htmlFor="option-1" data-txt="Pulseiras"></label>
+              <div>
+                <input id="option-2" name="option" type="radio" checked={order === "option-2"} onChange={handleOrderChange}/>
+                <label className="option" data-txt="Menor preço" data-value="option-2" onClick={handleOrderChange} ></label>
               </div>
-              <div title="option-2">
-                <input id="option-2" name="option" type="radio" />
-                <label className="option" htmlFor="option-2" data-txt="Vasos"></label>
+              <div>
+                <input id="option-3" name="option" type="radio" checked={order === "option-3"} onChange={handleOrderChange}/>
+                <label className="option" data-txt="Mais antigo" data-value="option-3" onClick={handleOrderChange} ></label>
               </div>
-              <div title="option-3">
-                <input id="option-3" name="option" type="radio" />
-                <label className="option" htmlFor="option-3" data-txt="Bonecos"></label>
+              
+              <div>
+                <input id="option-4" name="option" type="radio" checked={order === "option-4"} onChange={handleOrderChange}/>
+                <label className="option" data-txt="Mais novo" data-value="option-4" onClick={handleOrderChange} ></label>
               </div>
             </div>
           </div>
@@ -326,74 +343,22 @@ function App() {
 
         <div className='Colunas'>
           <div className='Coluna1'>
-          {filteredItem && filteredItem.length > 0 ? (
-            filteredItem.map((itm) => (
+          {filteredItems && filteredItems.length > 0 ? (
+            filteredItems.map((itm) => (
               <ProductDetails
-                key={itm.iditem}
+                key={itm.iditem ?? -1}
                 itm={itm}
                 iditemEditing={iditemEditing}
                 setiditemEditing={setiditemEditing}
-                setItem={setItem}
+                setItems={setItems}
               />
             ))
           ) : (
             <p className="mensagem">Nenhum item disponível.</p>
           )}
-            
-{/* 
-            <div className='Itens2'>
-              <div className="product-card">
-                <div
-                className="product-image"
-                style={{
-                  backgroundImage: "url('your-image-path.jpg')",
-                }}></div>
-                <div className="product-details">
-                  <p className="product-name">Dark Mirror</p>
-                  <p className="product-price">$25.99</p>
-                  <p className="product-id">ID: 23432252</p>
-                  <button className="add-to-cart-btn">Editar</button>
-                </div>
-              </div>
-            </div> */}
           </div>
-{/* 
-          <div className='Coluna2'>
-            <div className='Itens3'>
-              <div className="product-card">
-                <div
-                className="product-image"
-                style={{
-                  backgroundImage: "url('your-image-path.jpg')",
-                }}
-                ></div>
-                <div className="product-details">
-                  <p className="product-name">Ink</p>
-                  <p className="product-price">$25.99</p>
-                  <p className="product-id">ID: 23432252</p>
-                  <button className="add-to-cart-btn">Editar</button>
-                </div>
-              </div>
-            </div>
-
-            <div className='Itens4'>
-              <div className="product-card">
-                <div
-                className="product-image"
-                style={{
-                  backgroundImage: "url('your-image-path.jpg')",
-                }}></div>
-                <div className="product-details">
-                  <p className="product-name">Long Chair</p>
-                  <p className="product-price">$25.99</p>
-                  <p className="product-id">ID: 23432252</p>
-                  <button className="add-to-cart-btn">Editar</button>
-                </div>
-              </div>
-            </div>
-          </div> */}
           <div className='Pagination'>
-      
+
           </div>
         </div>
       </div>
