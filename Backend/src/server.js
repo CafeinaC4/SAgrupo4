@@ -61,7 +61,7 @@ app.put('/funcionarios/:idfuncionario', async (req, res) => {
     const { nomefuncionario, emailfuncionario, senhafuncionario, cpffuncionario } = req.body;
     try {
         const result = await pool.query(
-            'UPDATE clientes SET nomefuncionario = $1, emailfuncionario = $2, senhafuncionario = $3, cpffuncionario = $4 WHERE idfuncionario = $5 RETURNING *',
+            'UPDATE funcionarios SET nomefuncionario = $1, emailfuncionario = $2, senhafuncionario = $3, cpffuncionario = $4 WHERE idfuncionario = $5 RETURNING *',
             [nomefuncionario, emailfuncionario, senhafuncionario, cpffuncionario, idfuncionario]
         );
         if (result.rows.length === 0) {
