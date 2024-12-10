@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './NavBar.css';
+import axios from 'axios'
 import { useUser } from '../Context/UserContext';
 
 function Navbar() {
@@ -24,9 +25,20 @@ function Navbar() {
     setEditableUser({ ...editableUser, [name]: value });
   };
 
-  const handleSaveChanges = () => {
+  const handleSaveChanges = async () => {
     setUser(editableUser); // Atualiza o contexto global com os novos dados
     setIsEditing(false); // Sai do modo de edição
+
+    try {
+      let response;
+      // Se o item já existe, envia a atualização com PUT
+      response = await axios.put(`http://localhost:3000/funcionarios/${editableUser.id}`, editableUser);
+
+      setEditableUser(user); // Restaura os dados originais antes de entrar no modo de edição
+      setIsEditing(false);
+    } catch (error) {
+      console.error('Error saving item:', error);
+    }
   };
 
   const handleCancelEdit = () => {
@@ -49,60 +61,62 @@ function Navbar() {
         <span className="user-icon"></span>
       </button>
       {showPopup && user && (
-        <div className="popup">
-          <div className="popup-content">
-            <h2>Informações do Usuário</h2>
-            {isEditing ? (
-              <>
-                <label>
-                  Nome:
-                  <input
-                    type="text"
-                    name="nomefuncionario"
-                    value={editableUser.nomefuncionario}
-                    onChange={handleInputChange}
-                  />
-                </label>
-                <label>
-                  Email:
-                  <input
-                    type="email"
-                    name="emailfuncionario"
-                    value={editableUser.emailfuncionario}
-                    onChange={handleInputChange}
-                  />
-                </label>
-              </>
-            ) : (
-              <>
-                <p>Nome: {user?.nomefuncionario}</p>
-                <p>Email: {user?.emailfuncionario}</p>
-              </>
-            )}
-            <div className="popup-buttons">
-            <button className="logout-btn" onClick={handleLogout}>
-                SAIR
-              </button>
-              {isEditing ? (
-                <>
-                  <button className="save-btn" onClick={handleSaveChanges}>
-                    SALVAR
-                  </button>
-                  <button className="cancel-btn" onClick={handleCancelEdit}>
-                    CANCELAR
-                  </button>
-                </>
-              ) : (
-                <button className="edit-btn" onClick={handleEditToggle}>
-                  EDITAR
-                </button>
-              )}
-              <button className="close-btn" onClick={handlePopupToggle}>
-                FECHAR
-              </button>
-            </div>
-          </div>
-        </div>
+       <div className="popup">
+       <div className="popup-content">
+         <h2>Informações do Usuário</h2>
+         {isEditing ? (
+           <>
+             <label>
+               Nome:
+               <input
+                 type="text"
+                 name="nomefuncionario"
+                 value={editableUser.nomefuncionario}
+                 onChange={handleInputChange}
+               />
+             </label>
+             <label>
+               Email:
+               <input
+                 type="email"
+                 name="emailfuncionario"
+                 value={editableUser.emailfuncionario}
+                 onChange={handleInputChange}
+               />
+             </label>
+           </>
+         ) : (
+           <>
+             <p>Nome: {user?.nomefuncionario}</p>
+             <p>Email: {user?.emailfuncionario}</p>
+           </>
+         )}
+         <div className="popup-buttons">
+           {isEditing ? (
+             <>
+               <button className="save-btn" onClick={handleSaveChanges}>
+                 SALVAR
+               </button>
+               <button className="cancel-btn" onClick={handleCancelEdit}>
+                 CANCELAR
+               </button>
+             </>
+           ) : (
+             <>
+               <button className="logout-btn" onClick={handleLogout}>
+                 SAIR
+               </button>
+               <button className="edit-btn" onClick={handleEditToggle}>
+                 EDITAR
+               </button>
+               <button className="close-btn" onClick={handlePopupToggle}>
+                 FECHAR
+               </button>
+             </>
+           )}
+         </div>
+       </div>
+     </div>     
       )}
     </nav>
   );
