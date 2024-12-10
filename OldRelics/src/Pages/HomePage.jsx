@@ -9,15 +9,27 @@ import { useUser } from '../Context/UserContext';  // Importe o useUser para ace
 function App() {
   
   // const [itens, setItens] = useState([{nomeitem: '', idadeitem: '', dataaquisicaoitem: '', tipoitem: '', descricaoitem: '', itemestoque: '', datavendaitem: ''}])
-  const [isEditing, setIsEditing] = useState(false);
-  const { user, setUser } = useUser();  // Use o contexto global para obter o usuário e a função setUser
-  const [ item, setItem ] = useState([]);  // Use o contexto global para obter o usuário e a função setUser
+  const [iditemEditing, setiditemEditing] = useState(false);
+  const { user, setUser } = useUser();  
+  const [ item, setItem ] = useState([]); 
   // const [funcionarios, setFuncionarios] = useState([]);
   const [filteredItem, setFilteredItem] = useState([]);
   const [filter, setFilter] = useState("");  // Estado para o filtro do nome do item
-  const [filtered, setFiltered] = useState()
 
-  const ProductDetails = ({ itm, isEditing, setIsEditing }) => {
+  const formatDate = (value) => {
+    if(!value) return;
+    const date = new Date(value);
+    
+    const day = String(date.getUTCDate()).padStart(2, '0'); 
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+    const year = date.getUTCFullYear();
+
+    // Retorne a data no formato desejado
+    return `${year}-${month}-${day}`;
+  };
+
+  const ProductDetails = ({ itm, iditemEditing, setiditemEditing }) => {
+    itm.idadeitem = formatDate(itm.idadeitem)
     const formatPrice = (value) => {
       // Verifica se o valor é um número válido
       const numericValue = parseFloat(value);
@@ -29,20 +41,20 @@ function App() {
     
       // Formata o número com duas casas decimais, separador de milhar e vírgula como separador decimal
       return numericValue
-        .toFixed(2) // Garante duas casas decimais
-        .replace('.', ',') // Troca o separador decimal de ponto para vírgula
-        .replace(/\B(?=(\d{3})+(?!\d))/g, '.'); // Adiciona pontos como separador de milhar
+        .toFixed(2) // duas casas decimais
+        .replace('.', ',') // troca o separador
+        .replace(/\B(?=(\d{3})+(?!\d))/g, '.'); // pontos como separador de milhar
     };
-    
-    // Crie estados locais para armazenar os valores enquanto edita
+
+    // Estados locais
     const [nome, setNome] = useState(itm.nomeitem);
-    const [preco, setPreco] = useState(itm.preco);
+    const [preco, setPreco] = useState(itm.precoitem);
     const [idade, setIdade] = useState(itm.idadeitem);
   
-    // Atualiza os valores ao mudar o estado de 'isEditing' para um novo item
+    // Atualiza os valores ao mudar o estado de 'iditemEditing' para um novo item
     useEffect(() => {
       setNome(itm.nomeitem);
-      setPreco(itm.preco);
+      setPreco(itm.precoitem);
       setIdade(itm.idadeitem);
     }, [itm]);
   
@@ -62,7 +74,7 @@ function App() {
       const updatedItem = {
         ...itm,
         nomeitem: nome,
-        preco: preco,
+        precoitem: preco,
         idadeitem: idade,
       };
   
@@ -80,21 +92,30 @@ function App() {
         setItem((prevItens) => {
           if (itm.iditem) {
             // Se for um item existente, apenas atualize o item na lista
-            setFilteredItem(prevItens.map((item) =>
-              item.iditem === itm.iditem ? { ...item, nomeitem: nome, idadeitem: idade, tipoitem: tipo, descricaoitem: descicao, itememestoque: emestoque, datavendaitem: datavenda, dataaquisicaoiem: dataaquisicao, precoitem: preco} : item
+            setItem(prevItens.map((item) =>
+              // item.iditem === itm.iditem ? { ...item, nomeitem: nome, idadeitem: idade, tipoitem: tipo, descricaoitem: descicao, itememestoque: emestoque, datavendaitem: datavenda, dataaquisicaoiem: dataaquisicao, precoitem: preco} : item
+              item.iditem === itm.iditem ? { ...item, nomeitem: nome, idadeitem: idade, precoitem: preco} : item
             ));
+            
+            setFilteredItem(prevItens.map((item) =>
+              // item.iditem === itm.iditem ? { ...item, nomeitem: nome, idadeitem: idade, tipoitem: tipo, descricaoitem: descicao, itememestoque: emestoque, datavendaitem: datavenda, dataaquisicaoiem: dataaquisicao, precoitem: preco} : item
+              item.iditem === itm.iditem ? { ...item, nomeitem: nome, idadeitem: idade, precoitem: preco} : item
+            ));
+
             return prevItens.map((item) =>
-              item.iditem === itm.iditem ? { ...item, nomeitem: nome, preco: preco, idadeitem: idade } : item
+              item.iditem === itm.iditem ? { ...item, nomeitem: nome, idadeitem: idade, precoitem: preco} : item
             );
           } else {
             // Se for um novo item, adicione-o à lista
             setFilteredItem([response.data, ...prevItens.slice(1)]);
+            setItem([response.data, ...prevItens.slice(1)]);
+
             return [response.data, ...prevItens.slice(1)];
           }
         });
   
         // Desativa o modo de edição após salvar
-        setIsEditing(false);
+        setiditemEditing(false);
       } catch (error) {
         console.error('Error saving item:', error);
       }
@@ -105,27 +126,27 @@ function App() {
         <div className="product-card">
           <div className='product-image'></div>
           <div className="product-details">
-            {isEditing === itm.iditem || !itm.iditem ? (
+            {iditemEditing === itm.iditem || !itm.iditem ? (
               <div>
                 <input
                   className="inputs"
                   placeholder="Nome"
-                  value={nome} // Usa o estado local para 'nome'
+                  value={nome ?? ''} // Usa o estado local para 'nome'
                   onChange={handleNomeChange} // Atualiza o estado ao digitar
                   required
                 />
                 <input
                   className="inputs"
                   placeholder="Idade"
-                  value={idade} // Usa o estado local para 'preco'
-                  onChange={handleIdadeChange} // Atualiza o estado ao digitar
+                  value={idade ?? ''} 
+                  onChange={handleIdadeChange} 
                   required
                 />
                  <input
                   className="inputs"
                   placeholder="Preço"
-                  value={preco} // Usa o estado local para 'preco'
-                  onChange={handlePrecoChange} // Atualiza o estado ao digitar
+                  value={preco ?? ''}
+                  onChange={handlePrecoChange}
                   required
                 />
                 <p className="product-id">ID: {itm.iditem}</p>
@@ -135,10 +156,11 @@ function App() {
             ) : (
               <div>
                 <p>{itm.nomeitem}</p>
-                <p>R${formatPrice(itm.preco)}</p>
+                <p>Produzido em:</p>
                 <p>{itm.idadeitem}</p>
+                <p>R${itm.precoitem}</p>
                 <p className="product-id">ID: {itm.iditem}</p>
-                <button className="add-to-cart-btn" onClick={() => setIsEditing(itm.iditem)}>Editar</button> {/* Botão para ativar o modo de edição */}
+                <button className="add-to-cart-btn" onClick={() => setiditemEditing(itm.iditem)}>Editar</button> {/* Botão para ativar o modo de edição */}
               </div>
             )}
           </div>
@@ -159,16 +181,16 @@ function App() {
       preco: 0, // Preço do item (ou qualquer outro dado que você queira)+
       idadeitem: 0
     };
-    setIsEditing(null)
+    setiditemEditing(null)
     setItem([newItem, ...item]);
     setFilteredItem([newItem, ...filteredItem]);
   };
 
   const cancel = () => {
-    if(!isEditing) {
+    if(!iditemEditing) {
       removeFirstItem();
     }
-    setIsEditing(false);
+    setiditemEditing(false);
   };
 
   const fetchItens = async () => {
@@ -190,8 +212,8 @@ function App() {
     setFilter(value);
 
     // Filtrar os itens com base no nome (considerando que o nomeitem é case-insensitive)
-    const filtered = item.filter(itm => itm.nomeitem.toLowerCase().includes(value.toLowerCase()));
-    setFilteredItem(filtered);
+    const filteredItem = item.filter(itm => itm.nomeitem.toLowerCase().includes(value.toLowerCase()));
+    setFilteredItem(filteredItem);
   };
 
   return (
@@ -284,7 +306,7 @@ function App() {
             </div>
             <div className="options">
               <div title="all">
-                <input id="all" name="option" type="radio" checked={filtered} onChange={handleFilterChange}></input>
+                <input id="all" name="option" type="radio" checked={filteredItem} onChange={handleFilterChange}></input>
                 <label className="option" htmlFor="all" data-txt="Categorias" data-text="Todos"></label>
               </div>
               <div title="option-1">
@@ -310,13 +332,13 @@ function App() {
               <ProductDetails
                 key={itm.iditem}
                 itm={itm}
-                isEditing={isEditing}
-                setIsEditing={setIsEditing}
+                iditemEditing={iditemEditing}
+                setiditemEditing={setiditemEditing}
                 setItem={setItem}
               />
             ))
           ) : (
-            <p>Nenhum item disponível.</p>
+            <p className="mensagem">Nenhum item disponível.</p>
           )}
             
 {/* 

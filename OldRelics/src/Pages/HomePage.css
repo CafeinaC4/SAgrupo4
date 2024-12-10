@@ -115,7 +115,6 @@ padding-top: 53px;
 
 .input {
   width: calc(100% - 29px);
-  height: 100%;
   border: 0;
   border-color: transparent;
   font-size: 1rem;
@@ -683,4 +682,8 @@ background-color: gray;
 }
 .popup-content {
   left:0;
+}
+
+.mensagem {
+  color: #FFF;
 }
