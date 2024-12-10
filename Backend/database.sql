@@ -34,3 +34,6 @@ VALUES
 ('Geladeira Brastemp', '2010-12-05', '2017-12-05', 'Eletrodoméstico', 'Geladeira frost-free com 400L', FALSE, '2021-05-15', 3200.00),
 ('Mouse Logitech', '2020-10-12', '2022-10-12', 'Acessório', 'Mouse sem fio com DPI ajustável', TRUE, NULL, 150.00),
 ('Cafeteira Nespresso', '2016-08-30', '2020-08-30', 'Eletrodoméstico', 'Máquina de café expresso compacta', FALSE, '2023-01-18', 799.90);
+
+SELECT * FROM itens;
+SELECT * FROM funcionarios;
