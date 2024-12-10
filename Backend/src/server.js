@@ -6,8 +6,8 @@ const app = express();
 const pool = new Pool({
     user: 'postgres',
     host: 'localhost',
-    // database: 'Old Relics',
-    database: 'postgres',
+    database: 'Old Relics',
+    // database: 'postgres',
     password: 'senai',
     port: 5432,
 });
@@ -100,11 +100,11 @@ app.delete('/funcionarios/:idfuncionario', async (req, res) => {
 
 //Adicionar item
 app.post('/itens', async (req, res) => {
-    const { nomeitem, idadeitem, dataaquisicaoitem, tipoitem, descricaoitem, itemestoque, datavendaitem, precoitem, iditem } = req.body
+    const { nomeitem, idadeitem, dataaquisicaoitem, tipoitem, descricaoitem, itemestoque, imagemitem, datavendaitem, precoitem} = req.body
     try {
         const result = await pool.query(
-            'INSERT INTO itens (nomeitem, idadeitem, dataaquisicaoitem, tipoitem, descricaoitem, itemestoque, datavendaitem, precoitem) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
-            [nomeitem, idadeitem, dataaquisicaoitem, tipoitem, descricaoitem, itemestoque, datavendaitem, precoitem]
+            'INSERT INTO itens (nomeitem, idadeitem, dataaquisicaoitem, tipoitem, descricaoitem, itemestoque, imagemitem, datavendaitem, precoitem) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
+            [nomeitem, idadeitem, dataaquisicaoitem, tipoitem, descricaoitem, itemestoque, imagemitem, datavendaitem, precoitem]
         )
         res.status(201).json(result.rows[0])
     } catch (err) {
@@ -142,11 +142,11 @@ app.get('/itens/:iditem', async (req, res) => {
 // Rota para atualizar um item
 app.put('/itens/:iditem', async (req, res) => {
     const { iditem } = req.params;
-    const { nomeitem, idadeitem, dataaquisicaoitem, tipoitem, descricaoitem, itemestoque, datavendaitem, precoitem } = req.body;
+    const { nomeitem, idadeitem, dataaquisicaoitem, tipoitem, descricaoitem, itemestoque, imagemitem, datavendaitem, precoitem } = req.body;
     try {
         const result = await pool.query(
-            'UPDATE itens SET nomeitem = $1, idadeitem = $2, dataaquisicaoitem = $3, tipoitem = $4, descricaoitem=$5, itemestoque = $6, datavendaitem = $7, precoitem = $8 WHERE iditem = $9 RETURNING *',
-            [nomeitem, idadeitem, dataaquisicaoitem, tipoitem, descricaoitem, itemestoque, datavendaitem, precoitem, iditem]
+            'UPDATE itens SET nomeitem = $1, idadeitem = $2, dataaquisicaoitem = $3, tipoitem = $4, descricaoitem=$5, itemestoque = $6, imagemitem = $7, datavendaitem = $8, precoitem = $9 WHERE iditem = $10 RETURNING *',
+            [nomeitem, idadeitem, dataaquisicaoitem, tipoitem, descricaoitem, itemestoque, imagemitem, datavendaitem, precoitem, iditem]
         );
         if (result.rows.length === 0) {
             return res.status(404).json({ error: 'Produto não encontrado' });

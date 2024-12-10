@@ -32,18 +32,21 @@ function App() {
     itm.idadeitem = formatDate(itm.idadeitem)
 
     // Estados locais
+    const [imagem, setImagem] = useState(itm.imagemitem)
     const [nome, setNome] = useState(itm.nomeitem);
     const [preco, setPreco] = useState(itm.precoitem);
     const [idade, setIdade] = useState(itm.idadeitem);
   
     // Atualiza os valores ao mudar o estado de 'iditemEditing' para um novo item
     useEffect(() => {
+      setImagem(itm.imagemitem);
       setNome(itm.nomeitem);
       setPreco(itm.precoitem);
       setIdade(itm.idadeitem);
     }, [itm]);
   
     // Funções para tratar as mudanças nos inputs
+    const handleImagemChange = (e) => setImagem(e.target.value);
     const handleNomeChange = (e) => setNome(e.target.value);
     const handlePrecoChange = (e) => setPreco(e.target.value);
     const handleIdadeChange = (e) => setIdade(e.target.value);
@@ -66,6 +69,7 @@ function App() {
   
       const updatedItem = {
         ...itm,
+        imagemitem: imagem,
         nomeitem: nome,
         precoitem: preco,
         idadeitem: idade,
@@ -86,15 +90,15 @@ function App() {
           if (itm.iditem) {
             // Se for um item existente, apenas atualize o item na lista
             setItems(prevItens.map((item) =>
-              item.iditem === itm.iditem ? { ...item, nomeitem: nome, idadeitem: idade, precoitem: preco} : item
+              item.iditem === itm.iditem ? { ...item, imagemitem: imagem, nomeitem: nome, idadeitem: idade, precoitem: preco} : item
             ));
             
             setFilteredItems(filteredItems.map((item) =>
-              item.iditem === itm.iditem ? { ...item, nomeitem: nome, idadeitem: idade, precoitem: preco} : item
+              item.iditem === itm.iditem ? { ...item, imagemitem: imagem, nomeitem: nome, idadeitem: idade, precoitem: preco} : item
             ));
 
             return prevItens.map((item) =>
-              item.iditem === itm.iditem ? { ...item, nomeitem: nome, idadeitem: idade, precoitem: preco} : item
+              item.iditem === itm.iditem ? { ...item, imagemitem: imagem, nomeitem: nome, idadeitem: idade, precoitem: preco} : item
             );
           } else {
             // Se for um novo item, adicione-o à lista
@@ -119,6 +123,13 @@ function App() {
           <div className="product-details">
             {iditemEditing === itm.iditem || !itm.iditem ? (
               <div>
+                <input
+                className='inputs'
+                  placeholder="Imagem"
+                  value={imagem?? ''} // Usa o estado local para 'imagem'
+                  onChange={handleImagemChange} // Atualiza o estado ao digitar
+                  required
+                />
                 <input
                   className="inputs"
                   placeholder="Nome"
@@ -146,6 +157,7 @@ function App() {
               </div>
             ) : (
               <div>
+                <img className='imagemProduto' src={itm.imagemitem} alt={itm.nomeitem}/>
                 <p>{itm.nomeitem}</p>
                 <p>Produzido em:</p>
                 <p>{itm.idadeitem}</p>
@@ -171,6 +183,7 @@ function App() {
 
     const newItem = {
       iditem: null,
+      imagemitem: '',
       nomeitem: 'Novo Item',
       precoitem: 0,
       idadeitem: 0
