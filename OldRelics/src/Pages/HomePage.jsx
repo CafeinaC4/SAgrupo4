@@ -209,11 +209,12 @@ function App() {
     fetchItens()
   }, [])
 
+  // Filtrar
   const handleFilterChange = (e) => {
     var filterValue =  e.target.value;
     setFilter(filterValue);
 
-    var filteredItems = items.filter(itm => itm.nomeitem.toLowerCase().includes(filterValue.toLowerCase()));
+    var filteredItems = items.filter(itm => itm.nomeitem.toLowerCase().includes(filterValue.toLowerCase()) || itm.tipoitem.toLowerCase().includes(filterValue.toLowerCase()));
 
     // Filtrar os itens com base no nome (considerando que o nomeitem é case-insensitive)
     setFilteredItems(filteredItems);

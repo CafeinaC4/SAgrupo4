@@ -6,8 +6,8 @@ const app = express();
 const pool = new Pool({
     user: 'postgres',
     host: 'localhost',
-    database: 'Old Relics',
-    // database: 'postgres',
+    // database: 'Old Relics',
+    database: 'postgres',
     password: 'senai',
     port: 5432,
 });
